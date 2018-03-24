@@ -39,7 +39,7 @@ class Index extends Component{
                         </Link>
                     </li>
                     <li class="rowLi">
-                        <Link tag="login" to="/lgoin">
+                        <Link tag="login" to="/login">
                         <span>登录</span>
                         </Link>
                     </li>
