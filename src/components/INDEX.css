@@ -1,0 +1,31 @@
+.rowUl{
+    list-style: none;
+}
+li{
+    float: left;
+    padding: 8px;
+
+}
+
+.rowLi{
+    text-align: center;
+	line-height: 42px;
+	height: 42px;
+	position: relative;
+	background-color: hsla(0,0%,100%,0);
+	-webkit-transition: all .3s;
+	-o-transition: all .3s;
+	transition: all .3s
+}
+
+.banner{
+	background-color: dodgerblue;
+	text-align: center;
+	height: 50px;
+}
+
+#header-banner{
+	background-color: dodgerblue;
+	text-align: center;
+	height: 50px;
+}

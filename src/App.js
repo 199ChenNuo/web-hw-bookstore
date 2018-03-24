@@ -6,6 +6,7 @@ import Index from './components/INDEX';
 import {BrowserRouter} from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
+import 'antd/dist/antd.css';
 
 class App extends Component {
   render() {
