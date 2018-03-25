@@ -13,6 +13,13 @@ function calTotal() {
     }
 }
 
+function calSelectTotal(selectedRowKeys) {
+    selectTotal=0;
+    for(let i=0; i<selectedRowKeys.length; i++){
+        selectTotal += selectedRowKeys[i].price * selectedRowKeys[i].count;
+    }
+}
+
 function minCount(th, record){
     console.log('count',th.count);
     th.count--;
@@ -79,6 +86,7 @@ class ShoppingCar extends Component{
     onSelectChange = (selectedRowKeys) => {
         console.log('selectedRowKeys changed: ', selectedRowKeys);
         this.setState({ selectedRowKeys });
+        calSelectTotal();
     };
     calSelectTotal= () => {
         const { selectedRowKeys } = this.state;
@@ -98,12 +106,14 @@ class ShoppingCar extends Component{
                 key: 'all-data',
                 text: 'Select All Data',
                 onSelect: () => {
+                  calSelectTotal(selectedRowKeys);
                   this.setState({
                     selectedRowKeys: [...Array(dataLen).keys()], // 0...45
                   });
                   //calSelectTotal();
                 },
-              },],
+              },
+            ],
               onSelection: this.onSelection,
             },];
         return (
@@ -116,6 +126,7 @@ class ShoppingCar extends Component{
                     pagination={{
                         showTotal: function() {
                             calTotal();
+                            calSelectTotal(selectedRowKeys);
                             return '共' + total + '元' + '，已选择' + selectTotal + '元';
                             /*return 
                                 <div style={{marginLeft:1000}}>

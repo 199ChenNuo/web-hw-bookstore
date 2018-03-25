@@ -29,3 +29,15 @@ li{
 	text-align: center;
 	height: 50px;
 }
+
+.guideMenu{
+	float: left;
+	text-align: center;
+	line-height: 42px;
+	height: 42px;
+	position: relative;
+	background-color: hsla(0,0%,100%,0);
+	-webkit-transition: all .3s;
+	-o-transition: all .3s;
+	transition: all .3s
+}
