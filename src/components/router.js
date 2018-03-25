@@ -8,9 +8,16 @@ import Catalogue from './catalogue/catalogue';
 import User from './user/user';
 import Order from './order/order';
 import Register from './register/register';
+import AdminLogIn from './adminLogin/adminLogin';
+import { client } from './login/login';
+import { admin } from './adminLogin/adminLogin';
+
+var reloadTime=false;
 
 class Index extends Component{
+    
     render(){
+        console.log(client);
         return (
             <div class="tab">
                 <header>
@@ -24,12 +31,13 @@ class Index extends Component{
                         </Link>
                     </Col>
                     
+                    <div>
                     <Col span="2">
                         <Link tag='catalogue' to='/catalogue'>
                         <a>书城</a>
                         </Link>
                     </Col>
-                    <Col span="2">
+                        <Col span="2">
                         <Link tag="shoppingcar" to="/shoppingcar">
                         <span>购物车</span>
                         </Link>
@@ -39,9 +47,17 @@ class Index extends Component{
                         <span>我的</span>
                         </Link>
                     </Col>
+                    </div>
+                   
+                    <div>
                     <Col span="1">
                         <Link tag="login" to="/login">
                         <span>登录</span>
+                        </Link>
+                    </Col>
+                    <Col span="1">
+                        <Link tag="adminLogin" to="/adminLogin">
+                        <span>管理员</span>
                         </Link>
                     </Col>
                     <Col span="1">
@@ -49,17 +65,19 @@ class Index extends Component{
                         <span>注册</span>
                         </Link>
                     </Col>
+                    </div>
                 </Row>
               </div>
               
               <Switch> 
                 <Route exact path='/' component={LogIn}/>
                 <Route path='/home' component={Home}/>
-                <Route path='/login' component={LogIn}/>
-                <Route path='/user' component={User}/>
                 <Route path='/catalogue' component={Catalogue}/>
                 <Route path='/shoppingcar' component={ShoppingCar}/>
                 <Route path='/register' component={Register}/>
+                <Route path='/login' component={LogIn}/>
+                <Route path='/adminLogin' component={AdminLogIn}/>
+                <Route path='/user' component={User}/>
               </Switch>
               
             </div>

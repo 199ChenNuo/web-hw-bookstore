@@ -1,17 +1,10 @@
 import React, {Component} from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
-//import { BrowserRouter } from 'react-router';
-//import { Switch, Route, Link } from 'react-router-dom';
-//import Home from '../home/home';
 const FormItem = Form.Item;
 
+export var admin;
 
-export var client=false;
-
-function reloadPage(){
-    window.location.reload();
-}
-class Login extends Component{
+class AdminLogin extends Component{
   state = {
     username: "",
     userpass:"",
@@ -47,8 +40,6 @@ class Login extends Component{
       }
       else{
          var obj = this;
-         client=true;
-         // BrowserRouter.push('/home');
            //提交表单数据到后端验证
            /*
           $.post("/loginAction",{
@@ -78,14 +69,15 @@ class Login extends Component{
               });
               */
       }
-      console.log('client',client);
+
+     
       event.preventDefault();
   };
   render() {
     return (
         <div style={{width:300,margin:'auto'}}>
             <Form onSubmit={this.handleSubmit}  className="login-form">
-                <h1>欢迎登录</h1>
+                <h1>管理员，欢迎登录</h1>
                 <FormItem validateStatus={this.state.namevalidateStatus} help={this.state.nameHelp}>
                 <Input className="username"  value={this.state.username} onChange={this.handleUsernameChange} prefix={<Icon type="user" style={{ fontSize: 13 }} />}  placeholder="Username" />
                 </FormItem>
@@ -110,7 +102,7 @@ class Login extends Component{
   }
 };
 
-const LogIn = Form.create()(Login);
+const AdminLogIn = Form.create()(AdminLogin);
 
-export default LogIn;
+export default AdminLogIn;
 

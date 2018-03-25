@@ -49,22 +49,22 @@ const columns = [{
     title: '作者',
     dataIndex: 'author',
     key: 'author',
-    sorter: (a,b)=>a<b,
+    sorter: (a,b)=>a.author<b.author,
     },{
     title: '价格',
     dataIndex: 'price',
     key: 'price',
-    sorter: (a,b)=>a<b,
+    sorter: (a,b)=>a.price-b.price,
     },{
     title: '出版年份',
     dataIndex: 'year',
     key: 'year',
-    sorter: (a,b)=>a<b,
+    sorter: (a,b)=>a.year-b.year,
     },{
     title: '数量',
     dataIndex: 'count',
     key: 'count',
-    sorter: (a,b)=>a<b,
+    sorter: (a,b)=>a.count-b.count,
     render: (text, record) => ( //塞入内容
         <span>
         <Button href="#" type="primary" onClick={minCount.bind(this,record)}>-</Button>
@@ -75,7 +75,7 @@ const columns = [{
     title: '库存',
     dataIndex: 'storage',
     key: 'storage',
-    sorter: (a,b)=>a<b,
+    sorter: (a,b)=>a.storage-b.storage,
     },
 ];
 
