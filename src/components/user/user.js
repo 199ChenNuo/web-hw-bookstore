@@ -7,9 +7,10 @@ const favBook = {
 class User extends Component{
     render(){
         return (
-            <h3 style={{textAlign='right'}}> 我 </h3>
             <div>
-                <h2 style={{textAlign='center'}}>喜欢的书籍</h2>
+            <h3 style={{textAlign:'right'}}> 我 </h3>
+            <h2 style={{textAlign:'center'}}>喜欢的书籍</h2>
+            </div>
         )
     }
 }

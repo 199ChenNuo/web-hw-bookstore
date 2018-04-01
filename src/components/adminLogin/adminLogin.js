@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
+
 const FormItem = Form.Item;
 
-export var admin;
+export var adminLogin;
 
 class AdminLogin extends Component{
   state = {
@@ -40,6 +41,7 @@ class AdminLogin extends Component{
       }
       else{
          var obj = this;
+         adminLogin=true;
            //提交表单数据到后端验证
            /*
           $.post("/loginAction",{

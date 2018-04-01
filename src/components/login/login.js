@@ -6,7 +6,7 @@ import { Form, Icon, Input, Button, Checkbox } from 'antd';
 const FormItem = Form.Item;
 
 
-export var client=false;
+export var clientLogin=false;
 
 function reloadPage(){
     window.location.reload();
@@ -47,7 +47,7 @@ class Login extends Component{
       }
       else{
          var obj = this;
-         client=true;
+         clientLogin=true;
          // BrowserRouter.push('/home');
            //提交表单数据到后端验证
            /*
@@ -78,7 +78,7 @@ class Login extends Component{
               });
               */
       }
-      console.log('client',client);
+      console.log('clientLogin',clientLogin);
       event.preventDefault();
   };
   render() {

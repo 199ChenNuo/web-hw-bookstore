@@ -24,7 +24,7 @@ function addCount(th, record){
   }
 }
 
-const data = [{
+export const data = [{
     ID: '0001',
     name: 'book1',
     author: 'author1',
@@ -49,49 +49,7 @@ const data = [{
     count: 0,
     storage: 88,
 },];
-/*
-const columns = [{
-  title: '书名',
-  dataIndex: 'name',
-  key: 'name',
-},{
-  title: '作者',
-  dataIndex: 'author',
-  key: 'author',
-},{
-  title: '价格',
-  dataIndex: 'price',
-  key: 'price',
-  sorter: (a, b)=>a.price-b.price,
-},{
-  title: '出版年份',
-  dataIndex: 'year',
-  key: 'year',
-  sorter: (a, b)=>a.year-b.year,
-},{
-title: '库存',
-dataIndex: 'storage',
-key: 'storage',
-sorter: (a, b)=> a.storage-b.storage,
-},{
-  title: '数量',
-  dataIndex: 'count',
-  key: 'count',
-  render: (text, record) => ( //塞入内容
-      record.count ? (
-        <span>
-          <a href="#" onClick={minCount.bind(this,record)}>-</a>
-          <a style={{margin:10}}>{record.count}</a>
-          <a href="#" onClick={addCount.bind(this,record)}>+</a>
-      </span>
-      ) : (
-        <span>
-          <a href="#" onClick={addCount.bind(this, record)}>加入购物车</a>
-        </span>
-      )
-  ),
-},];
-*/
+
 class Catalogue extends Component{
   state = {
     filterDropdownVisible: false,
