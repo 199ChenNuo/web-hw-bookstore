@@ -23,6 +23,7 @@ function calSelectTotal(selectedRowKeys) {
 function minCount(th, record){
     console.log('count',th.count);
     th.count--;
+    th.storage++;
     if(th.count==0){
         var booksLen = booksOrder.length;
         for(let i=0; i<booksLen; i++){
@@ -33,9 +34,15 @@ function minCount(th, record){
         }
     }
 }
-
+function submitOrder(e){
+    alert("提交成功，共"+total+"元");
+    for(let i=0; i<booksOrder.length; i++){
+        booksOrder.splice(0,1);
+    }
+}
 function addCount(th, record){
     th.count++;
+    th.storage--;
     if(th.count==1){
         booksOrder.push(th);
     }
@@ -95,6 +102,7 @@ class ShoppingCar extends Component{
             selectTotal += selectedRowKeys[i].price * selectedRowKeys[i].count;
         }
     };
+
     render(){
         const { selectedRowKeys } = this.state;
         let dataLen = Array.length;
@@ -127,7 +135,7 @@ class ShoppingCar extends Component{
                         showTotal: function() {
                             calTotal();
                             calSelectTotal(selectedRowKeys);
-                            return '共' + total + '元' + '，已选择' + selectTotal + '元';
+                            return '共' + total + '元';// + '，已选择' + selectTotal + '元';
                             /*return 
                                 <div style={{marginLeft:1000}}>
                                     <a style={{fontSize:35}}>共</a>
@@ -140,6 +148,7 @@ class ShoppingCar extends Component{
                         },
                     }}
                 />
+                <Button onClick={this.submitOrder} type="primary" htmlType="submit">提交订单</Button>
             </div>
         )
     }

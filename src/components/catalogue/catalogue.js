@@ -6,6 +6,7 @@ import {booksOrder} from '../shoppingcar/shoppingcar';
 function minCount(th, record){
   console.log('count',th.count);
   th.count--;
+  th.storage++;
   if(th.count==0){
       var booksLen = booksOrder.length;
       for(let i=0; i<booksLen; i++){
@@ -19,6 +20,7 @@ function minCount(th, record){
 
 function addCount(th, record){
   th.count++;
+  th.storage--;
   if(th.count==1){
       booksOrder.push(th);
   }
