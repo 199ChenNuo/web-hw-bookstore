@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import { List, Avatar, Button, Spin, Form, Table, Divider } from 'antd';
+import { Input, Icon, List, Avatar, Button, Spin, Form, Table, Divider } from 'antd';
 
 export var booksOrder = new Array();
 var total = 0;
@@ -48,47 +48,15 @@ function addCount(th, record){
     }
 }
 
-const columns = [{
-    title: '书名',
-    dataIndex: 'name',
-    key: 'name',
-    },{
-    title: '作者',
-    dataIndex: 'author',
-    key: 'author',
-    sorter: (a,b)=>a.author<b.author,
-    },{
-    title: '价格',
-    dataIndex: 'price',
-    key: 'price',
-    sorter: (a,b)=>a.price-b.price,
-    },{
-    title: '出版年份',
-    dataIndex: 'year',
-    key: 'year',
-    sorter: (a,b)=>a.year-b.year,
-    },{
-    title: '数量',
-    dataIndex: 'count',
-    key: 'count',
-    sorter: (a,b)=>a.count-b.count,
-    render: (text, record) => ( //塞入内容
-        <span>
-        <Button href="#" type="primary" onClick={minCount.bind(this,record)}>-</Button>
-        <a style={{margin:10}}>{record.count}</a>
-        <Button href="#" type="primary" onClick={addCount.bind(this,record)}>+</Button>
-        </span>
-    ),},{
-    title: '库存',
-    dataIndex: 'storage',
-    key: 'storage',
-    sorter: (a,b)=>a.storage-b.storage,
-    },
-];
+
 
 class ShoppingCar extends Component{
     state = {
         selectedRowKeys: [],
+        filterDropdownVisible: false,
+        data: booksOrder,
+        searchText: '',
+        filtered: false,
     };
     onSelectChange = (selectedRowKeys) => {
         console.log('selectedRowKeys changed: ', selectedRowKeys);
@@ -102,8 +70,90 @@ class ShoppingCar extends Component{
             selectTotal += selectedRowKeys[i].price * selectedRowKeys[i].count;
         }
     };
-
+    onInputChange = (e) => {
+        this.setState({ searchText: e.target.value });
+      }
+      onSearch = () => {
+        const { searchText } = this.state;
+        const reg = new RegExp(searchText, 'gi');
+        this.setState({
+          filterDropdownVisible: false,
+          filtered: !!searchText,
+          data: booksOrder.map((record) => {
+            const match = record.name.match(reg);
+            if (!match) {
+              return null;
+            }
+            return {
+              ...record,
+              name: (
+                <span>
+                  {record.name.split(reg).map((text, i) => (
+                    i > 0 ? [<span className="highlight">{match[0]}</span>, text] : text
+                  ))}
+                </span>
+              ),
+            };
+          }).filter(record => !!record),
+        });
+      }
     render(){
+        const columns = [{
+            title: '书名',
+            dataIndex: 'name',
+            key: 'name',
+            filterDropdown: (
+                <div className="custom-filter-dropdown">
+                  <Input
+                    ref={ele => this.searchInput = ele}
+                    placeholder="输入关键字查询"
+                    value={this.state.searchText}
+                    onChange={this.onInputChange}
+                    onPressEnter={this.onSearch}
+                  />
+                  <Button type="primary" onClick={this.onSearch}>Search</Button>
+                </div>
+              ),
+              filterIcon: <Icon type="smile-o" style={{ color: this.state.filtered ? '#108ee9' : '#aaa' }} />,
+              filterDropdownVisible: this.state.filterDropdownVisible,
+              onFilterDropdownVisibleChange: (visible) => {
+                this.setState({
+                  filterDropdownVisible: visible,
+                }, () => this.searchInput && this.searchInput.focus());
+              },
+            },{
+            title: '作者',
+            dataIndex: 'author',
+            key: 'author',
+            sorter: (a,b)=>a.author<b.author,
+            },{
+            title: '价格',
+            dataIndex: 'price',
+            key: 'price',
+            sorter: (a,b)=>a.price-b.price,
+            },{
+            title: '出版年份',
+            dataIndex: 'year',
+            key: 'year',
+            sorter: (a,b)=>a.year-b.year,
+            },{
+            title: '数量',
+            dataIndex: 'count',
+            key: 'count',
+            sorter: (a,b)=>a.count-b.count,
+            render: (text, record) => ( //塞入内容
+                <span>
+                <Button href="#" type="primary" onClick={minCount.bind(this,record)}>-</Button>
+                <a style={{margin:10}}>{record.count}</a>
+                <Button href="#" type="primary" onClick={addCount.bind(this,record)}>+</Button>
+                </span>
+            ),},{
+            title: '库存',
+            dataIndex: 'storage',
+            key: 'storage',
+            sorter: (a,b)=>a.storage-b.storage,
+            },
+        ];
         const { selectedRowKeys } = this.state;
         let dataLen = Array.length;
         const rowSelection = [{
@@ -129,7 +179,7 @@ class ShoppingCar extends Component{
                 <h1>购物车</h1>
                 <Table
                     columns={columns}
-                    dataSource={booksOrder}
+                    dataSource={this.state.data}
                     rowSelection={rowSelection}
                     pagination={{
                         showTotal: function() {

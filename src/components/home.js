@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Carousel } from 'antd';
-import book1 from '../images/book1.jpg'
-import timg from '../images/timg.jpg'
+import book1 from './images/book1.jpg'
+import timg from './images/timg.jpg'
 
 function onChange(a, b, c) {
   console.log(a, b, c);
