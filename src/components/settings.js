@@ -7,12 +7,13 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const AutoCompleteOption = AutoComplete.Option;
 
-export var userName="用户名"
 
+export var UserName='我';
 
 class SettingsForm extends Component{
 
     state = {
+        userName:'',
         userEmail:'',
         userPhone:'',
         userPassword:'',
@@ -21,24 +22,27 @@ class SettingsForm extends Component{
     }
 
     
-    handleSubmit(e) {
+    handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 alert("修改成功");
                 console.log('修改成功 value: ', values);
+                UserName: this.state.userName;
             }
         });
+        
     }
-    changeUserName(event) {
+    changeUserName = (event) => {
         console.log('change user name');
         userName: event.target.value;
+        UserName: event.target.value;
     }
-    changeEmail(event) {
+    changeEmail = (event) => {
         console.log('change user E-mail');
         this.setState({userEmail: event.target.value});
     }
-    changePhone(event) {
+    changePhone = (event) => {
         console.log('change user phone number');
         this.setState({userPhone: event.target.value});
     }
@@ -104,19 +108,17 @@ class SettingsForm extends Component{
     );
 
     return(
-        <div class="container">
-        <div style={{width:400}}>
+        <div style={{width:500, textAlign:'center',float:'center'}}>
+        <div id="modify-info">
         <Form onSubmit={this.handleSubmit}>
         <FormItem
         {...formItemLayout}
-        label="userName"
+        label="昵称"
         >
-        {getFieldDecorator('userName', {
-            rules: [{
-            type: 'userName', message: '输入新用户名',
-            }],
+        {getFieldDecorator('nickName', {
+            rules: [{ required: true, message: '请输入新的用户名', whitespace: true }],
         })(
-            <Input/>
+            <Input onChange={this.changeUserName}/>
         )}
         </FormItem>
         <FormItem

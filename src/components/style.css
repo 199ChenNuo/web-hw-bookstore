@@ -5,9 +5,16 @@
 }
 
 .container {
-    margin: auto;
     text-align: center;
     background: aliceblue;
     font-size: 14px;
     font-family: 'Times New Roman', Times, serif;
+}
+
+#modify-info {
+    text-align: center;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    
 }
