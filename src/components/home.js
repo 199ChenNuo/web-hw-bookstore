@@ -13,14 +13,14 @@ class Home extends Component{
             <div>
                 <h1 class="home-title">推荐书目</h1>
                 <div></div>
-                <div style={{alignItems:'center'}}>
+                <div style={{alignItems:'center', background: '#ddd' }}>
                 <Carousel afterChange={onChange}>
                     <div>
                         <h1>岛上书店</h1>
                         
                         <img src={book1}
                         style={{margin:'0 auto'}}/>
-                        <h3>1</h3>
+                        <h3 style={{alignItems:'center', background: '#ddd' }}>1</h3>
                     </div>
                     <div>
                         <h1>岛上书店</h1>

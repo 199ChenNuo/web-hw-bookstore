@@ -8,7 +8,9 @@ import Catalogue from './catalogue'
 import User from './user'
 import Home from './home'
 import ShoppingCar from './shoppingcar'
+import Settings from './settings'
 
+import './style.css'
 import * as styles from './style.less';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -43,9 +45,13 @@ class PageRouter extends Component {
       console.log('e',e);
       console.log('collapsed',this.state.collapsed);
       
-    this.setState({
-        collapsed : e
-    });
+    if(this.state.collapsed){
+      this.setState({collapsed:false});
+      console.log('open menu');
+    }else{
+      this.setState({collapsed:true});
+      console.log('close menu');
+    }
     
 };
 
@@ -80,9 +86,10 @@ class PageRouter extends Component {
       this.state.collapsed ? 
       <Menu.Item>
         <Icon type="user" />
+        <span>我</span>
         </Menu.Item>
              :       
-              <div style={{margin:'0 auto',textAlign:'center',verticalAlign:'middle'}}>
+              <div id='user-header'>
               <Upload
               style={{margin:'0 auto',textAlign:'center',verticalAlign:'middle'}}
                 name="avatar"
@@ -112,9 +119,9 @@ class PageRouter extends Component {
           <div className="logo" />
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
             
-            <div style={{textAlign:'center'}}>
+           
               {imgColladpse}
-            </div>
+            
 
             <Menu.Item key="home">
               <Link to='/home'>
@@ -147,7 +154,7 @@ class PageRouter extends Component {
                  <span>购物车</span>
                 </Link>
                </Menu.Item>
-              <Menu.Item key="5">
+              <Menu.Item key="order">
                 <Icon type='book' />
                 <span>历史订单</span>
               </Menu.Item>
@@ -161,8 +168,10 @@ class PageRouter extends Component {
               <Menu.Item key="8">Team 2</Menu.Item>
             </SubMenu>
             <Menu.Item key="setting">
+            <Link to='/settings'>
               <Icon type="form" />
               <span>修改个人信息</span>
+            </Link>
             </Menu.Item>
           </Menu>
         </Sider>
@@ -173,16 +182,19 @@ class PageRouter extends Component {
             </div>
           </Header>
           <Content style={{ margin: '0 16px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>User</Breadcrumb.Item>
-              <Breadcrumb.Item>Bill</Breadcrumb.Item>
-            </Breadcrumb>
+           
+          <Breadcrumb style={{ margin: '16px 0' }}>
+            <Breadcrumb.Item>User</Breadcrumb.Item>
+            <Breadcrumb.Item>Bill</Breadcrumb.Item>
+          </Breadcrumb>
             
             <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
-                <Route exact path='/home' component={Home}/>
-                <Route exact path='/user' component={User}/>
-                <Route exact path='/catalogue' component={Catalogue}/>
-                <Route exact path='/shoppingcar' component={ShoppingCar}/>
+                <Route exact path='/' component={Home} />
+                <Route path='/home' component={Home}/>
+                <Route path='/user' component={User}/>
+                <Route path='/catalogue' component={Catalogue}/>
+                <Route path='/shoppingcar' component={ShoppingCar}/>
+                <Route path='/settings' component={Settings} />
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
@@ -197,5 +209,11 @@ class PageRouter extends Component {
   }
 }
 
+/*
+<Breadcrumb style={{ margin: '16px 0' }}>
+  <Breadcrumb.Item>User</Breadcrumb.Item>
+  <Breadcrumb.Item>Bill</Breadcrumb.Item>
+</Breadcrumb>
+*/
 
 export default PageRouter;
