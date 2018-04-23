@@ -9,6 +9,7 @@ import User from './user'
 import Home from './home'
 import ShoppingCar from './shoppingcar'
 import Settings from './settings'
+import Register from './register'
 
 import './style.css'
 import * as styles from './style.less';
@@ -173,6 +174,12 @@ class PageRouter extends Component {
               <span>修改个人信息</span>
             </Link>
             </Menu.Item>
+            <Menu.Item>
+              <Link to='/register'>
+              <Icon type='user-add' />
+              <span>注册</span>
+              </Link>
+            </Menu.Item>
           </Menu>
         </Sider>
         <Layout>
@@ -195,6 +202,7 @@ class PageRouter extends Component {
                 <Route path='/catalogue' component={Catalogue}/>
                 <Route path='/shoppingcar' component={ShoppingCar}/>
                 <Route path='/settings' component={Settings} />
+                <Route path='/register' component={Register} />
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
