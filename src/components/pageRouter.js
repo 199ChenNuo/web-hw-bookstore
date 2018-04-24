@@ -163,10 +163,21 @@ class PageRouter extends Component {
             
             <SubMenu
               key="sub2"
-              title={<span><Icon type="team" /><span>Team</span></span>}
+              title={<span><Icon type="user-add" /><span>登录/注册</span></span>}
             >
-              <Menu.Item key="6">Team 1</Menu.Item>
-              <Menu.Item key="8">Team 2</Menu.Item>
+              <Menu.Item key="6">登录</Menu.Item>
+
+              <Menu.Item key="8">
+              <Link to='/register'>
+              <span>
+              <Icon type='user-add' />
+              <span>
+              注册
+              </span>
+              </span>
+              </Link>
+              </Menu.Item>
+   
             </SubMenu>
             <Menu.Item key="setting">
             <Link to='/settings'>
