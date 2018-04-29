@@ -87,11 +87,11 @@ class RegistrationForm extends React.Component {
     ));
 
     return (
-      <div style={{width:400,margin:'auto'}}>
+      <div style={{width:500,margin:'auto'}}>
           <Form onSubmit={this.handleSubmit}>
         <FormItem
           {...formItemLayout}
-          label="E-mail"
+          label="邮箱地址"
         >
           {getFieldDecorator('email', {
             rules: [{
@@ -105,7 +105,7 @@ class RegistrationForm extends React.Component {
         </FormItem>
         <FormItem
           {...formItemLayout}
-          label="Password"
+          label="密码"
         >
           {getFieldDecorator('password', {
             rules: [{
@@ -119,7 +119,7 @@ class RegistrationForm extends React.Component {
         </FormItem>
         <FormItem
           {...formItemLayout}
-          label="Confirm Password"
+          label="再次输入以确认密码"
         >
           {getFieldDecorator('confirm', {
             rules: [{
@@ -135,7 +135,7 @@ class RegistrationForm extends React.Component {
           {...formItemLayout}
           label={(
             <span>
-              Nickname&nbsp;
+              昵称&nbsp;
               <Tooltip title="What do you want others to call you?">
                 <Icon type="question-circle-o" />
               </Tooltip>
@@ -150,7 +150,7 @@ class RegistrationForm extends React.Component {
         </FormItem>
         <FormItem
           {...formItemLayout}
-          label="Phone Number"
+          label="手机号码"
         >
           {getFieldDecorator('phone', {
             rules: [{ required: true, message: 'Please input your phone number!' }],

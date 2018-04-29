@@ -11,6 +11,8 @@ import ShoppingCar from './shoppingcar'
 import Settings from './settings'
 import Register from './register'
 import LogIn from './login'
+import AdminLogIn from './adminLogin'
+import AdminBooks from './adminBooks'
 
 import './style.css'
 import * as styles from './style.less';
@@ -139,6 +141,12 @@ class PageRouter extends Component {
               </Link>
             </Menu.Item>
 
+            <Menu.Item>
+              <Link to='/adminBooks'>
+              <Icon type="settings" />
+              <span>管理图书</span>
+              </Link>
+            </Menu.Item>
             
             <SubMenu
               key="user"
@@ -161,6 +169,7 @@ class PageRouter extends Component {
                 <span>历史订单</span>
               </Menu.Item>
             </SubMenu>
+
             
             <SubMenu
               key="sub2"
@@ -172,6 +181,17 @@ class PageRouter extends Component {
               <Icon type='user' />
               <span>
               登录
+              </span>
+              </span>
+              </Link>
+              </Menu.Item>
+
+              <Menu.Item key="7">
+              <Link to='/adminLogin'>
+              <span>
+              <Icon type='user' />
+              <span>
+              管理员登录
               </span>
               </span>
               </Link>
@@ -225,7 +245,9 @@ class PageRouter extends Component {
                 <Route path='/settings' component={Settings} />
                 <Route path='/register' component={Register} />
                 <Route path='/login' component={LogIn} />
-            </div>
+                <Route path='/adminLogin' component={AdminLogIn} />
+                <Route path='/adminBooks' component={AdminBooks} />
+             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
             Ant Design ©2016 Created by Ant UED
