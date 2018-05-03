@@ -7,10 +7,11 @@ const FormItem = Form.Item;
 
 
 export var clientLogin=false;
-
+/*
 function reloadPage(){
     window.location.reload();
 }
+*/
 class Login extends Component{
   state = {
     username: "",
@@ -33,24 +34,25 @@ class Login extends Component{
         });
     };
   handleSubmit = (event) =>{
-      if(this.state.username == ''){
+      if(this.state.username === ''){
           this.setState({
             namevalidateStatus: 'error',
             nameHelp:'请输入用户名！'
         });
       }
-      else if(this.state.userpass == ''){
+      else if(this.state.userpass === ''){
            this.setState({
             passvalidateStatus: 'error',
             passHelp:'请输入密码！'
         });
       }
       else{
-         var obj = this;
+         
          clientLogin=true;
          // BrowserRouter.push('/home');
            //提交表单数据到后端验证
            /*
+           var obj = this;
           $.post("/loginAction",{
                username:this.state.username,
                userpass:this.state.userpass

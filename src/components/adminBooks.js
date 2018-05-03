@@ -1,22 +1,23 @@
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
-import { List, Avatar, Button, Spin, Form, Table, Divider } from 'antd';
+import { Button, Table } from 'antd';
 import { data } from './catalogue'
 
 function minStorage(th, record){
     console.log('storage',th.storage);
     th.storage--;
-    if(th.storage==0){
+    if(th.storage===0){
         var booksLen = data.length;
         for(let i=0; i<booksLen; i++){
-            if(data[i].ID == th.ID){
+            if(data[i].ID === th.ID){
                 data.splice(i,1);
                 break;
             }
         }
     }
 }
-
+function handleSubmin(e){
+    console.log('submit order');
+}
 function addStorage(th, record){
     th.storage++;
 }
@@ -63,6 +64,7 @@ class AdminBooks extends Component{
                     columns={columns}
                     dataSource={data}
                 />
+                <Button id='adminboos' onClick={handleSubmin.bind(this)}>提交更改</Button>
             </div>
         )
     }

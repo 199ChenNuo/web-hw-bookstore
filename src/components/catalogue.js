@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
-import { Input, Icon, List, Avatar, Button, Spin, Form, Table, Divider } from 'antd';
+//import ReactDOM from 'react-dom';
+import $ from 'jquery';
+import { Input, Icon, Button, Spin, Table } from 'antd';
 
 import {booksOrder} from './shoppingcar';
 
@@ -8,10 +9,10 @@ function minCount(th, record){
   console.log('count',th.count);
   th.count--;
   th.storage++;
-  if(th.count==0){
+  if(th.count===0){
       var booksLen = booksOrder.length;
       for(let i=0; i<booksLen; i++){
-          if(booksOrder[i].ID == th.ID){
+          if(booksOrder[i].ID === th.ID){
               booksOrder.splice(i,1);
               break;
           }
@@ -22,11 +23,11 @@ function minCount(th, record){
 function addCount(th, record){
   th.count++;
   th.storage--;
-  if(th.count==1){
+  if(th.count===1){
       booksOrder.push(th);
   }
 }
-
+/*
 export const data = [{
     ID: '0001',
     name: '如何成为一名精致的吃货',
@@ -52,15 +53,28 @@ export const data = [{
     count: 0,
     storage: 88,
 },];
-
+*/
+export var data='';
 class Catalogue extends Component{
     state = {
       filterDropdownVisible: false,
-      data: data,
       searchText: '',
       filtered: false,
     };
-  
+    componentWillMount = () => {
+      console.log('initial cataloge');
+      $.ajax({
+        url:'http://localhost:8080/db/BookManager',
+        type: 'GET',
+        //dataType: 'jsonp',
+        success: function(books){
+          data=eval(books);
+          console.log('get data success');
+          console.log('data type:',typeof(data));
+          console.log('data:',data);          
+        }
+      })
+    }
     onInputChange = (e) => {
       this.setState({ searchText: e.target.value });
     }
@@ -131,7 +145,7 @@ class Catalogue extends Component{
       dataIndex: 'storage',
       key: 'storage',
       sorter: (a, b)=> a.storage-b.storage,
-      },{
+      },/*{
         title: '数量',
         dataIndex: 'count',
         key: 'count',
@@ -148,8 +162,11 @@ class Catalogue extends Component{
               </span>
             )
         ),
-      },];      
-      return <Table columns={columns} dataSource={this.state.data} />;
+      },*/];      
+      return (
+      <div>
+        <Table columns={columns} dataSource={data} />
+      </div>);
     }
   }
   

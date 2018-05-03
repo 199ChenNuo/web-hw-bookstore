@@ -1,18 +1,21 @@
 import React, {Component} from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
-import {BrowserRouter} from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
+//import {BrowserRouter} from 'react-router-dom';
 import { Upload, message, Layout, Menu, Breadcrumb, Icon } from 'antd';
-import MenuItem from 'antd/lib/menu/MenuItem';
+//import MenuItem from 'antd/lib/menu/MenuItem';
 
-import Catalogue from './catalogue'
-import User from './user'
-import Home from './home'
-import ShoppingCar from './shoppingcar'
-import Settings from './settings'
-import Register from './register'
-import LogIn from './login'
-import AdminLogIn from './adminLogin'
-import AdminBooks from './adminBooks'
+import Catalogue from './catalogue';
+import User from './user';
+import Home from './home';
+import ShoppingCar from './shoppingcar';
+import Settings from './settings';
+import Register from './register';
+import AdminRegister from './adminRegister';
+import LogIn from './login';
+import AdminLogIn from './adminLogin';
+import AdminBooks from './adminBooks';
+import Agreement from './agreement';
+
 
 import './style.css'
 import * as styles from './style.less';
@@ -106,6 +109,7 @@ class PageRouter extends Component {
                 onChange={this.handleChange}
               >
                 {imageUrl ? <img src={imageUrl} alt="" /> : uploadButton}
+              
               </Upload>
               
               </div>
@@ -128,22 +132,22 @@ class PageRouter extends Component {
             
 
             <Menu.Item key="home">
-              <Link to='/home'>
+              <Link to='/Home'>
                 <Icon type="home" />
                 <span>首页</span>
               </Link>
             </Menu.Item>
 
             <Menu.Item key="catalogue">
-              <Link to='/catalogue'>
+              <Link to='/Catalogue'>
                 <Icon type="shop" />
                 <span>书城</span>
               </Link>
             </Menu.Item>
 
             <Menu.Item>
-              <Link to='/adminBooks'>
-              <Icon type="settings" />
+              <Link to='/Admin/AdminBooks'>
+              <Icon type="form" />
               <span>管理图书</span>
               </Link>
             </Menu.Item>
@@ -153,13 +157,13 @@ class PageRouter extends Component {
               title={<span><Icon type="solution" /><span>我的</span></span>}
             >
               <Menu.Item key="userinfo">
-               <Link to='/user'>
+               <Link to='/User/Userinfo'>
                  <Icon type='user' />
                  <span>个人信息</span>
                 </Link>
               </Menu.Item>
               <Menu.Item key="shoppingcar">
-               <Link to='/shoppingcar'>
+               <Link to='/User/shoppingcar'>
                  <Icon type="shopping-cart" />
                  <span>购物车</span>
                 </Link>
@@ -176,7 +180,7 @@ class PageRouter extends Component {
               title={<span><Icon type="team" /><span>登录/注册</span></span>}
             >
               <Menu.Item key="6">
-              <Link to='/login'>
+              <Link to='/User/UserLogin'>
               <span>
               <Icon type='user' />
               <span>
@@ -187,7 +191,7 @@ class PageRouter extends Component {
               </Menu.Item>
 
               <Menu.Item key="7">
-              <Link to='/adminLogin'>
+              <Link to='/Admin/AdminLogin'>
               <span>
               <Icon type='user' />
               <span>
@@ -198,7 +202,7 @@ class PageRouter extends Component {
               </Menu.Item>
 
               <Menu.Item key="8">
-              <Link to='/register'>
+              <Link to='/User/UserRegister'>
               <span>
               <Icon type='user-add' />
               <span>
@@ -207,20 +211,26 @@ class PageRouter extends Component {
               </span>
               </Link>
               </Menu.Item>
+
+                
+              <Menu.Item>
+                <Link to='/Admin/AdminRegister'>
+                <Icon type='user-add' />
+                <span>管理员注册</span>
+                </Link>
+              </Menu.Item>
    
             </SubMenu>
             <Menu.Item key="setting">
-            <Link to='/settings'>
+            <Link to='/User/settings'>
               <Icon type="form" />
               <span>修改个人信息</span>
             </Link>
             </Menu.Item>
-            <Menu.Item>
-              <Link to='/register'>
-              <Icon type='user-add' />
-              <span>注册</span>
-              </Link>
-            </Menu.Item>
+
+      
+
+
           </Menu>
         </Sider>
         <Layout>
@@ -238,16 +248,18 @@ class PageRouter extends Component {
             
             <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
                 <Route exact path='/' component={Home} />
-                <Route path='/home' component={Home}/>
-                <Route path='/user' component={User}/>
-                <Route path='/catalogue' component={Catalogue}/>
-                <Route path='/shoppingcar' component={ShoppingCar}/>
-                <Route path='/settings' component={Settings} />
-                <Route path='/register' component={Register} />
-                <Route path='/login' component={LogIn} />
-                <Route path='/adminLogin' component={AdminLogIn} />
-                <Route path='/adminBooks' component={AdminBooks} />
-             </div>
+                <Route path='/Home' component={Home}/>
+                <Route path='/User/Userinfo' component={User}/>
+                <Route path='/Catalogue' component={Catalogue}/>
+                <Route path='/User/shoppingcar' component={ShoppingCar}/>
+                <Route path='/User/settings' component={Settings} />
+                <Route path='/User/UserRegister' component={Register} />
+                <Route path='/User/UserLogin' component={LogIn} />
+                <Route path='/Admin/AdminLogin' component={AdminLogIn} />
+                <Route path='/Admin/AdminBooks' component={AdminBooks} />
+                <Route path='/Admin/AdminRegister' component={AdminRegister} />
+                <Route path='/Agreement' component={Agreement} />
+            </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
             Ant Design ©2016 Created by Ant UED

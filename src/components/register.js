@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
-import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
+import { Form, Input, Tooltip, Icon, Select, Checkbox, Button, AutoComplete } from 'antd';
+import $ from 'jquery';
 const FormItem = Form.Item;
 const Option = Select.Option;
-const AutoCompleteOption = AutoComplete.Option;
+
+//const AutoCompleteOption = AutoComplete.Option;
 
 
-class RegistrationForm extends React.Component {
+class RegistrationForm extends Component {
   state = {
     confirmDirty: false,
     autoCompleteResult: [],
@@ -82,9 +84,11 @@ class RegistrationForm extends React.Component {
       </Select>
     );
 
+    /*
     const websiteOptions = autoCompleteResult.map(website => (
       <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
     ));
+    */
 
     return (
       <div style={{width:500,margin:'auto'}}>
@@ -162,7 +166,7 @@ class RegistrationForm extends React.Component {
           {getFieldDecorator('agreement', {
             valuePropName: 'checked',
           })(
-            <Checkbox>I have read the <a href="">agreement</a></Checkbox>
+            <Checkbox>我已阅读 <a href="/agreement">免明</a></Checkbox>
           )}
         </FormItem>
         <FormItem {...tailFormItemLayout}>

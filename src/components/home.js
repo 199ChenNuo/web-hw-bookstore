@@ -18,28 +18,28 @@ class Home extends Component{
                     <div>
                         <h1>岛上书店</h1>
                         
-                        <img src={book1}
+                        <img alt='' src={book1}
                         style={{margin:'0 auto'}}/>
                         <h3 style={{alignItems:'center', background: '#ddd' }}>1</h3>
                     </div>
                     <div>
                         <h1>岛上书店</h1>
                         
-                        <img src={book1}
+                        <img alt='' src={book1}
                         style={{margin:'0 auto'}}/>
                         <h3>2</h3>
                     </div>
                     <div>
                         <h1>唐顿庄园</h1>
                         
-                        <img src={timg}
+                        <img alt='' src={timg}
                         style={{margin:'0 auto'}}/>
                         <h3>3</h3>
                     </div>
                     <div>
                         <h1>唐顿庄园</h1>
                         
-                        <img src={timg}
+                        <img alt='' src={timg}
                         style={{margin:'0 auto'}}/>
                         <h3>4</h3>
                     </div>

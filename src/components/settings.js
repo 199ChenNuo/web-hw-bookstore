@@ -1,14 +1,12 @@
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
-import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
+import { Form, Input, Select, Checkbox, Button } from 'antd';
 
 import './style.css';
 const FormItem = Form.Item;
 const Option = Select.Option;
-const AutoCompleteOption = AutoComplete.Option;
 
 
-export var UserName='我';
+export var EXUserName='我';
 
 class SettingsForm extends Component{
 
@@ -28,7 +26,7 @@ class SettingsForm extends Component{
             if (!err) {
                 alert("修改成功");
                 console.log('修改成功 value: ', values);
-                UserName: this.state.userName;
+                EXUserName: this.state.userName;
             }
         });
         
@@ -36,7 +34,6 @@ class SettingsForm extends Component{
     changeUserName = (event) => {
         console.log('change user name');
         userName: event.target.value;
-        UserName: event.target.value;
     }
     changeEmail = (event) => {
         console.log('change user E-mail');
@@ -74,7 +71,6 @@ class SettingsForm extends Component{
     render(){
     
     const { getFieldDecorator } = this.props.form;
-    const { autoCompleteResult } = this.state;
 
     const formItemLayout = {
       labelCol: {
