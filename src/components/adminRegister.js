@@ -4,7 +4,8 @@ import $ from 'jquery';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
-
+const adminPass='admin';
+var IsAdmin=false;
 
 class AdminRegistrationForm extends Component{
     state = {
@@ -38,6 +39,17 @@ class AdminRegistrationForm extends Component{
           form.validateFields(['confirm'], { force: true });
         }
         callback();
+      }
+      compareAdminPass = (rule, value, callback) => {
+        console.log('input adminPass: ',value);
+        if(value != adminPass){
+          console.log('wrong adminpass');
+          //alert('错误密钥!');
+        }else{
+          console.log('is admin');
+          IsAdmin=true;
+        }
+        
       }
       /*
       handleWebsiteChange = (value) => {
@@ -140,6 +152,27 @@ class AdminRegistrationForm extends Component{
               {...formItemLayout}
               label={(
                 <span>
+                  管理员密钥&nbsp;
+                  <Tooltip title="注册成为管理员需要特殊密钥证明你的身份">
+                    <Icon type="question-circle-o" />
+                  </Tooltip>
+                </span>
+              )}
+            >
+              {getFieldDecorator('admin', {
+                rules: [{ 
+                  required: true, message: '管理员密钥', whitespace: true 
+                },{
+                  validator: this.compareAdminPass,
+                }],
+              })(
+                <Input type="password" />
+              )}
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label={(
+                <span>
                   昵称&nbsp;
                   <Tooltip title="这将是你在本书店的昵称">
                     <Icon type="question-circle-o" />
@@ -163,23 +196,7 @@ class AdminRegistrationForm extends Component{
                 <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
               )}
             </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label={(
-                <span>
-                  管理员密钥&nbsp;
-                  <Tooltip title="注册成为管理员需要特殊密钥证明你的身份">
-                    <Icon type="question-circle-o" />
-                  </Tooltip>
-                </span>
-              )}
-            >
-              {getFieldDecorator('admin', {
-                rules: [{ required: true, message: '管理员密钥', whitespace: true }],
-              })(
-                <Input />
-              )}
-            </FormItem>
+            
             <FormItem {...tailFormItemLayout}>
               {getFieldDecorator('agreement', {
                 valuePropName: 'checked',

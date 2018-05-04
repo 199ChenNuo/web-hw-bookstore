@@ -13,11 +13,15 @@ import Register from './register';
 import AdminRegister from './adminRegister';
 import LogIn from './login';
 import AdminLogIn from './adminLogin';
-import AdminBooks from './adminBooks';
+import ModifyBooks from './modifyBooks';
 import Agreement from './agreement';
+import AddBooks from './addBooks';
+import DelBooks from './delBooks';
 
+import { adminLogin } from './adminLogin';
+import { clientLogin } from './login';
 
-import './style.css'
+import './style.css';
 import * as styles from './style.less';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -91,91 +95,62 @@ class PageRouter extends Component {
     );
     const imgColladpse = (
       this.state.collapsed ? 
-      <Menu.Item>
-        <Icon type="user" />
-        <span>我</span>
+        <Menu.Item>
+          <Icon type="user" />
+          <span>我</span>
         </Menu.Item>
              :       
-              <div id='user-header'>
-              <Upload
-              style={{margin:'0 auto',textAlign:'center',verticalAlign:'middle'}}
-                name="avatar"
-                listType="picture-card"
-                //class="user-header"
-                className="avatar-uploader"
-                showUploadList={false}
-                action="//jsonplaceholder.typicode.com/posts/"
-                beforeUpload={beforeUpload}
-                onChange={this.handleChange}
-              >
-                {imageUrl ? <img src={imageUrl} alt="" /> : uploadButton}
-              
-              </Upload>
-              
-              </div>
+        <div id='user-header'>
+          <Upload
+            style={{margin:'0 auto',textAlign:'center',verticalAlign:'middle'}}
+            name="avatar"
+            listType="picture-card"
+            //class="user-header"
+            className="avatar-uploader"
+            showUploadList={false}
+            action="//jsonplaceholder.typicode.com/posts/"
+            beforeUpload={beforeUpload}
+            onChange={this.handleChange}
+          >
+            {imageUrl ? <img src={imageUrl} alt="" /> : uploadButton}
+          </Upload>
+        </div>
     )
-    const imageUrl = this.state.imageUrl;
-    return (
-      <div>
-        <Layout style={{ minHeight: '100vh' }}>
-        <Sider
-          collapsible
-          collapsed={this.state.collapsed}
-          onCollapse={this.onCollapse}
+    const userOrAdmin = (
+      adminLogin && !clientLogin ?
+        <Menu.Item>
+          <Link to='/Admin/ModifyBooks'>
+          <Icon type="form" />
+          <span>管理图书</span>
+          </Link>
+        </Menu.Item>
+        :
+        <SubMenu
+          key="user"
+          title={<span><Icon type="solution" /><span>我的</span></span>}
         >
-          
-          <div className="logo" />
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-            
-           
-              {imgColladpse}
-            
-
-            <Menu.Item key="home">
-              <Link to='/Home'>
-                <Icon type="home" />
-                <span>首页</span>
-              </Link>
+          <Menu.Item key="userinfo">
+            <Link to='/User/Userinfo'>
+              <Icon type='user' />
+              <span>个人信息</span>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="shoppingcar">
+            <Link to='/User/shoppingcar'>
+              <Icon type="shopping-cart" />
+              <span>购物车</span>
+            </Link>
             </Menu.Item>
+          <Menu.Item key="order">
+            <Icon type='book' />
+            <span>历史订单</span>
+          </Menu.Item>
+        </SubMenu>
 
-            <Menu.Item key="catalogue">
-              <Link to='/Catalogue'>
-                <Icon type="shop" />
-                <span>书城</span>
-              </Link>
-            </Menu.Item>
-
-            <Menu.Item>
-              <Link to='/Admin/AdminBooks'>
-              <Icon type="form" />
-              <span>管理图书</span>
-              </Link>
-            </Menu.Item>
-            
-            <SubMenu
-              key="user"
-              title={<span><Icon type="solution" /><span>我的</span></span>}
-            >
-              <Menu.Item key="userinfo">
-               <Link to='/User/Userinfo'>
-                 <Icon type='user' />
-                 <span>个人信息</span>
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="shoppingcar">
-               <Link to='/User/shoppingcar'>
-                 <Icon type="shopping-cart" />
-                 <span>购物车</span>
-                </Link>
-               </Menu.Item>
-              <Menu.Item key="order">
-                <Icon type='book' />
-                <span>历史订单</span>
-              </Menu.Item>
-            </SubMenu>
-
-            
-            <SubMenu
+    )
+    const loginOrNot = (
+      !adminLogin && !clientLogin ?
+      <SubMenu
               key="sub2"
               title={<span><Icon type="team" /><span>登录/注册</span></span>}
             >
@@ -219,15 +194,139 @@ class PageRouter extends Component {
                 <span>管理员注册</span>
                 </Link>
               </Menu.Item>
-   
-            </SubMenu>
-            <Menu.Item key="setting">
-            <Link to='/User/settings'>
-              <Icon type="form" />
-              <span>修改个人信息</span>
-            </Link>
+
+      </SubMenu>
+              :
+
+              userOrAdmin
+    )
+    const imageUrl = this.state.imageUrl;
+    return (
+      <div>
+        <Layout style={{ minHeight: '100vh' }}>
+        <Sider
+          collapsible
+          collapsed={this.state.collapsed}
+          onCollapse={this.onCollapse}
+        >
+          
+          <div className="logo" />
+          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+            
+          
+           { imgColladpse }
+            
+
+            <Menu.Item key="home">
+              <Link to='/Home'>
+                <Icon type="home" />
+                <span>首页</span>
+              </Link>
             </Menu.Item>
 
+            <Menu.Item key="catalogue">
+              <Link to='/Catalogue'>
+                <Icon type="shop" />
+                <span>书城</span>
+              </Link>
+            </Menu.Item>
+
+          <SubMenu key='admin'
+          title={<span><Icon type="form" /><span>管理图书</span></span>}
+          >
+            <Menu.Item>
+              <Link to='/Admin/ModifyBooks'>
+              <Icon type="form" />
+              <span>更改图书库存</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item>
+              <Link to='/Admin/AddBooks'>
+              <Icon type="form" />
+              <span>添加图书</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item>
+              <Link to='/Admin/DelBooks'>
+              <Icon type="form" />
+              <span>删除图书</span>
+              </Link>
+            </Menu.Item>
+            </SubMenu>
+            <SubMenu
+              key="user"
+              title={<span><Icon type="solution" /><span>我的</span></span>}
+            >
+              <Menu.Item key="userinfo">
+               <Link to='/User/Userinfo'>
+                 <Icon type='user' />
+                 <span>个人信息</span>
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="shoppingcar">
+               <Link to='/User/shoppingcar'>
+                 <Icon type="shopping-cart" />
+                 <span>购物车</span>
+                </Link>
+               </Menu.Item>
+              <Menu.Item key="order">
+                <Icon type='book' />
+                <span>历史订单</span>
+              </Menu.Item>
+              <Menu.Item key="setting">
+              <Link to='/User/settings'>
+                <Icon type="form" />
+                <span>修改个人信息</span>
+              </Link>
+              </Menu.Item>
+            </SubMenu>
+    
+            <SubMenu
+              key="sub2"
+              title={<span><Icon type="team" /><span>登录/注册</span></span>}
+            >
+              <Menu.Item key="6">
+              <Link to='/User/UserLogin'>
+              <span>
+              <Icon type='user' />
+              <span>
+              登录
+              </span>
+              </span>
+              </Link>
+              </Menu.Item>
+
+              <Menu.Item key="7">
+              <Link to='/Admin/AdminLogin'>
+              <span>
+              <Icon type='user' />
+              <span>
+              管理员登录
+              </span>
+              </span>
+              </Link>
+              </Menu.Item>
+
+              <Menu.Item key="8">
+              <Link to='/User/UserRegister'>
+              <span>
+              <Icon type='user-add' />
+              <span>
+              注册
+              </span>
+              </span>
+              </Link>
+              </Menu.Item>
+
+              <Menu.Item>
+                <Link to='/Admin/AdminRegister'>
+                <Icon type='user-add' />
+                <span>管理员注册</span>
+                </Link>
+              </Menu.Item>
+   
+            </SubMenu>
+            
       
 
 
@@ -256,7 +355,9 @@ class PageRouter extends Component {
                 <Route path='/User/UserRegister' component={Register} />
                 <Route path='/User/UserLogin' component={LogIn} />
                 <Route path='/Admin/AdminLogin' component={AdminLogIn} />
-                <Route path='/Admin/AdminBooks' component={AdminBooks} />
+                <Route path='/Admin/ModifyBooks' component={ModifyBooks} />
+                <Route path='/Admin/AddBooks' component={AddBooks} />
+                <Route path='/Admin/DelBooks' component={DelBooks} />
                 <Route path='/Admin/AdminRegister' component={AdminRegister} />
                 <Route path='/Agreement' component={Agreement} />
             </div>

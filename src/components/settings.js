@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Form, Input, Select, Checkbox, Button } from 'antd';
 
 import './style.css';
+import { clientLogin } from './login';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -103,8 +104,8 @@ class SettingsForm extends Component{
       </Select>
     );
 
-    return(
-        <div style={{width:500, textAlign:'center',float:'center'}}>
+    const content = (
+        clientLogin ?
         <div id="modify-info">
         <Form onSubmit={this.handleSubmit}>
         <FormItem
@@ -181,6 +182,14 @@ class SettingsForm extends Component{
         </FormItem>
         </Form>
         </div>
+        :
+        <p>
+                请先登录
+            </p>
+    )
+    return(
+        <div style={{width:500, textAlign:'center',float:'center'}}>
+            { content }
         </div>
     )
     }

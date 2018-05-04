@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import $ from 'jquery';
 
 const FormItem = Form.Item;
 
@@ -42,6 +43,24 @@ class AdminLogin extends Component{
       else{
          var obj = this;
          adminLogin=true;
+         var name=this.state.username;
+         var word=this.state.userpass;
+         console.log('valid input, check admin account in database');
+         $.ajax({
+             url:'http://localhost:8080/db/CheckAdmin',
+             type: 'Get',
+             data: {'adminname':name},
+             success: function(data){
+                 console.log('get password:', data);
+                 if(word===data){
+                     adminLogin=true;
+                     console.log('admin login success');
+                 }else{
+                     adminLogin=false;
+                     console.log('admin login fail');
+                 }
+             }
+         })
            //提交表单数据到后端验证
            /*
           $.post("/loginAction",{
@@ -72,7 +91,7 @@ class AdminLogin extends Component{
               */
       }
 
-     
+     console.log('adminLogin:',adminLogin);
       event.preventDefault();
   };
   render() {
@@ -95,7 +114,7 @@ class AdminLogin extends Component{
                     <Button type="primary" htmlType="submit" className="login-form-button" style={{width:300}}>
                         登录
                     </Button>
-                    <Button type="primary" htmlType="submit" className="login-form-button" style={{width:300}}>注册</Button>
+                    <p>还没有？点击这里<a href='/Admin/AdminRegister'>注册</a></p>
                 </div>
                 </FormItem>
             </Form>

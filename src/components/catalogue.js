@@ -3,7 +3,8 @@ import React, {Component} from 'react';
 import $ from 'jquery';
 import { Input, Icon, Button, Spin, Table } from 'antd';
 
-import {booksOrder} from './shoppingcar';
+import { booksOrder } from './shoppingcar';
+import { clientLogin } from './login';
 
 function minCount(th, record){
   console.log('count',th.count);
@@ -21,11 +22,54 @@ function minCount(th, record){
 }
 
 function addCount(th, record){
-  th.count++;
-  th.storage--;
-  if(th.count===1){
-      booksOrder.push(th);
+  if(!clientLogin){
+    alert('请先登录');
+    return;
+  }else{
+    th.count++;
+    th.storage--;
+    var inOrder=false;
+    let booksOrderLen=booksOrder.length;
+    for(let i=0; i<booksOrderLen; i++){
+        if(booksOrder[i].name==th.name){
+            inOrder=true;
+            break;
+        }
+    }
+    if(!inOrder){
+        booksOrder.push(th);
+    }
   }
+}
+
+function refresh() {
+  console.log('initial cataloge');
+      $.ajax({
+        url:'http://localhost:8080/db/BookManager',
+        type: 'GET',
+        //dataType: 'jsonp',
+        success: function(books){
+          data=eval(books);
+          
+          console.log('get data success');
+          console.log('origin data:',data);   
+          
+          var booksLen = data.length;
+          console.log('books len:',booksLen);
+          for(let i=0; i<booksLen; i++){
+            var b = data[i];
+            console.log('book',i+1);
+            b.count='0';
+            console.log(b);
+          }
+          console.log('made books:',data);
+          window.location.href='#';
+        }
+      })
+      data=data;
+      this.setState({
+        getRefresh: true,
+      })
 }
 /*
 export const data = [{
@@ -54,12 +98,13 @@ export const data = [{
     storage: 88,
 },];
 */
-export var data='';
+export var data = new Array();
 class Catalogue extends Component{
     state = {
       filterDropdownVisible: false,
       searchText: '',
       filtered: false,
+      getRefresh: false,
     };
     componentWillMount = () => {
       console.log('initial cataloge');
@@ -69,16 +114,36 @@ class Catalogue extends Component{
         //dataType: 'jsonp',
         success: function(books){
           data=eval(books);
+          
           console.log('get data success');
-          console.log('data type:',typeof(data));
-          console.log('data:',data);          
+          console.log('origin data:',data);   
+          
+          var booksLen = data.length;
+          console.log('books len:',booksLen);
+          for(let i=0; i<booksLen; i++){
+            var b = data[i];
+            console.log('book',i+1);
+            b.count='0';
+            console.log(b);
+          }
+          console.log('made books:',data);
+          window.location.href='#';
         }
+      })
+      data=data;
+      this.setState({
+        getRefresh: true,
       })
     }
     onInputChange = (e) => {
       this.setState({ searchText: e.target.value });
     }
     onSearch = () => {
+      console.log('search');
+
+      
+      
+
       const { searchText } = this.state;
       const reg = new RegExp(searchText, 'gi');
       this.setState({
@@ -104,6 +169,11 @@ class Catalogue extends Component{
     }
     render() {
       const columns = [{
+        title: 'ID',
+        dataIndex: 'ID',
+        key: 'ID',
+        sorter: (a,b) => a.ID-b.ID,
+      },{
         title: '书名',
         dataIndex: 'name',
         key: 'name',
@@ -145,7 +215,7 @@ class Catalogue extends Component{
       dataIndex: 'storage',
       key: 'storage',
       sorter: (a, b)=> a.storage-b.storage,
-      },/*{
+      },{
         title: '数量',
         dataIndex: 'count',
         key: 'count',
@@ -162,10 +232,11 @@ class Catalogue extends Component{
               </span>
             )
         ),
-      },*/];      
+      },];      
       return (
       <div>
         <Table columns={columns} dataSource={data} />
+        <Button type="primary" onClick={refresh.bind(this)}>点击刷新</Button>
       </div>);
     }
   }

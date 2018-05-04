@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 //import ReactDOM from 'react-dom';
 import { Input, Icon, Button, Spin, Table } from 'antd';
+import { clientLogin } from './login';
 
 export var booksOrder = new Array();
+
 var total = 0;
 var selectTotal = 0;
 
@@ -25,7 +27,7 @@ function minCount(th, record){
     th.count--;
     th.storage++;
     if(th.count==0){
-        var booksLen = booksOrder.length;
+        let booksLen = booksOrder.length;
         for(let i=0; i<booksLen; i++){
             if(booksOrder[i].ID === th.ID){
                 booksOrder.splice(i,1);
@@ -36,16 +38,37 @@ function minCount(th, record){
 }
 function submitOrder(th, record){
     alert("提交成功，共"+total+"元");
-    for(let i=0; i<booksOrder.length; i++){
-        booksOrder.splice(0,1);
+   
+    let booksOrderLen=booksOrder.length;
+    console.log('remove count:',booksOrderLen);
+    
+    for(let i=0; i<booksOrderLen; i++){
+        
+        booksOrder.pop();
     }
+    //booksOrder=new Array();
+   //booksOrder.splice(0,booksOrderLen);
 }
 function addCount(th, record){
+    console.log('add count, book:',th.name);
     th.count++;
     th.storage--;
+    /*
     if(th.count===1){
         booksOrder.push(th);
     }
+    */
+   var inOrder=false;
+   let booksOrderLen=booksOrder.length;
+   for(let i=0; i<booksOrderLen; i++){
+       if(booksOrder[i].name==th.name){
+           inOrder=true;
+           break;
+       }
+   }
+   if(!inOrder){
+       booksOrder.push(th);
+   }
 }
 
 
@@ -174,12 +197,13 @@ class ShoppingCar extends Component{
             ],
               onSelection: this.onSelection,
             },];
-        return (
+        const content = (
+             clientLogin ?
             <div>
                 <h1>购物车</h1>
                 <Table
                     columns={columns}
-                    dataSource={this.state.data}
+                    dataSource={booksOrder}
                     rowSelection={rowSelection}
                     pagination={{
                         showTotal: function() {
@@ -198,7 +222,16 @@ class ShoppingCar extends Component{
                         },
                     }}
                 />
-                <Button onClick={submitOrder.bind(this)} type="primary" htmlType="submit">提交订单</Button>
+                <Button href="#" onClick={submitOrder.bind(this)} type="primary" htmlType="submit">提交订单</Button>
+            </div>
+            :
+            <p>
+                请先登录
+            </p>
+        )
+        return (
+            <div>
+                { content }
             </div>
         )
     }
