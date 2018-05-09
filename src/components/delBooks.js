@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Table, Input, Icon, Button, Popconfirm } from 'antd';
+import $ from 'jquery';
 import { data } from './catalogue';
 import { adminLogin } from './adminLogin';
 
@@ -121,6 +122,21 @@ class DelBooks extends Component{
         console.log('data:',data);
         window.location.href='#';
         */
+       if(target){
+            $.ajax({
+                url:'http://localhost:8080/db/DelBooks',
+                type: 'GET',
+                data: 
+                {   
+                    'ID': target.ID,
+                },
+                success: function(data){
+                    console.log('delete success',data);
+                    alert('删除成功！');
+                }
+            })
+            window.location.href='#';
+       }
     }
     componentWillMount = () => {
         console.log('data:',data);
@@ -128,8 +144,7 @@ class DelBooks extends Component{
     render(){
         const columns = this.columns;
         const content = (
-            /*adminLogin */
-            true ?
+            adminLogin  ?
             <div>
             <Table bordered dataSource={this.state.data} columns={columns} />
             </div>

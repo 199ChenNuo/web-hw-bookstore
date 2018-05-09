@@ -137,7 +137,8 @@ class AddBooks extends Component{
         }
     render(){
         const content = (
-            /*adminLogin*/true ?
+            adminLogin
+             ?
             <div>
             <Table bordered dataSource={this.state.data} columns={this.columns} />;
             </div>

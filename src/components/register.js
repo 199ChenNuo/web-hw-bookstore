@@ -16,8 +16,22 @@ class RegistrationForm extends Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        alert("注册成功！请登录");
         console.log('Received values of form: ', values);
+        $.ajax({
+          url:'http://localhost:8080/db/AddUser',
+          type: 'GET',
+          data: 
+          {  
+              'username': values.nickname,
+              'password': values.password,
+              'email' : values.email,
+              'phone': values.phone,
+          },
+          success: function(data){
+              console.log('register success');
+              alert('注册成功！');
+          }
+      })
       }
     });
   }
@@ -166,7 +180,7 @@ class RegistrationForm extends Component {
           {getFieldDecorator('agreement', {
             valuePropName: 'checked',
           })(
-            <Checkbox>我已阅读 <a href="/agreement">免明</a></Checkbox>
+            <Checkbox>我已阅读 <a href="/User/Agreement">声明</a></Checkbox>
           )}
         </FormItem>
         <FormItem {...tailFormItemLayout}>

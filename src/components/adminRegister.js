@@ -13,11 +13,30 @@ class AdminRegistrationForm extends Component{
         autoCompleteResult: [],
       };
       handleSubmit = (e) => {
+        alert('ti jiao shu ju');
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
           if (!err) {
-            alert("注册成功！请登录");
+            if(values.admin != 'admin'){
+              alert('错误密钥');
+              return;
+            }
             console.log('Received values of form: ', values);
+            $.ajax({
+              url:'http://localhost:8080/db/AddAdmin',
+              type: 'GET',
+              data: 
+              {  
+                  'adminname': values.nickname,
+                  'password': values.password,
+                  'email' : values.email,
+                  'phone': values.phone,
+              },
+              success: function(data){
+                  console.log('register success');
+                  alert('注册成功！');
+              }
+          })
           }
         });
       }
@@ -40,6 +59,7 @@ class AdminRegistrationForm extends Component{
         }
         callback();
       }
+      /*
       compareAdminPass = (rule, value, callback) => {
         console.log('input adminPass: ',value);
         if(value != adminPass){
@@ -51,6 +71,7 @@ class AdminRegistrationForm extends Component{
         }
         
       }
+      */
       /*
       handleWebsiteChange = (value) => {
         let autoCompleteResult;
@@ -201,7 +222,7 @@ class AdminRegistrationForm extends Component{
               {getFieldDecorator('agreement', {
                 valuePropName: 'checked',
               })(
-                <Checkbox>我已阅读 <a href="/agreement">免明</a></Checkbox>
+                <Checkbox>我已阅读 <a href="/agreement">声明</a></Checkbox>
               )}
             </FormItem>
             <FormItem {...tailFormItemLayout}>

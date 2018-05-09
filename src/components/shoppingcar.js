@@ -4,6 +4,7 @@ import { Input, Icon, Button, Spin, Table } from 'antd';
 import { clientLogin } from './login';
 
 export var booksOrder = new Array();
+export var order = new Array();
 
 var total = 0;
 var selectTotal = 0;
@@ -44,7 +45,8 @@ function submitOrder(th, record){
     
     for(let i=0; i<booksOrderLen; i++){
         
-        booksOrder.pop();
+        //booksOrder.pop();
+        order.push(booksOrder.pop());
     }
     //booksOrder=new Array();
    //booksOrder.splice(0,booksOrderLen);

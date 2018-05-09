@@ -3,74 +3,9 @@ import React, {Component} from 'react';
 import $ from 'jquery';
 import { Input, Icon, Button, Spin, Table } from 'antd';
 
-import { booksOrder } from './shoppingcar';
+import { order } from './shoppingcar';
 import { clientLogin } from './login';
 
-function minCount(th, record){
-  console.log('count',th.count);
-  th.count--;
-  th.storage++;
-  if(th.count===0){
-      var booksLen = booksOrder.length;
-      for(let i=0; i<booksLen; i++){
-          if(booksOrder[i].ID === th.ID){
-              booksOrder.splice(i,1);
-              break;
-          }
-      }
-  }
-}
-
-function addCount(th, record){
-  if(!clientLogin){
-    alert('请先登录');
-    return;
-  }else{
-    th.count++;
-    th.storage--;
-    var inOrder=false;
-    let booksOrderLen=booksOrder.length;
-    for(let i=0; i<booksOrderLen; i++){
-        if(booksOrder[i].name==th.name){
-            inOrder=true;
-            break;
-        }
-    }
-    if(!inOrder){
-        booksOrder.push(th);
-    }
-  }
-}
-
-function refresh() {
-  console.log('initial cataloge');
-      $.ajax({
-        url:'http://localhost:8080/db/BookManager',
-        type: 'GET',
-        //dataType: 'jsonp',
-        success: function(books){
-          data=eval(books);
-          
-          console.log('get data success');
-          console.log('origin data:',data);   
-          
-          var booksLen = data.length;
-          console.log('books len:',booksLen);
-          for(let i=0; i<booksLen; i++){
-            var b = data[i];
-            console.log('book',i+1);
-            b.count='0';
-            console.log(b);
-          }
-          console.log('made books:',data);
-          window.location.href='#';
-        }
-      })
-      data=data;
-      this.setState({
-        getRefresh: true,
-      })
-}
 /*
 export const data = [{
     ID: '0001',
@@ -99,43 +34,14 @@ export const data = [{
 },];
 */
 export var data = new Array();
-class Catalogue extends Component{
+class Order extends Component{
     state = {
       filterDropdownVisible: false,
       searchText: '',
       filtered: false,
       getRefresh: false,
     };
-    componentWillMount = () => {
-      console.log('initial cataloge');
-      $.ajax({
-        url:'http://localhost:8080/db/BookManager',
-        type: 'GET',
-        //dataType: 'jsonp',
-        success: function(books){
-          console.log('data:',books);
-          data=eval(books);
-          
-          console.log('get data success');
-          console.log('origin data:',data);   
-          
-          var booksLen = data.length;
-          console.log('books len:',booksLen);
-          for(let i=0; i<booksLen; i++){
-            var b = data[i];
-            console.log('book',i+1);
-            b.count='0';
-            console.log(b);
-          }
-          console.log('made books:',data);
-          window.location.href='#';
-        }
-      })
-      data=data;
-      this.setState({
-        getRefresh: true,
-      })
-    }
+    
     onInputChange = (e) => {
       this.setState({ searchText: e.target.value });
     }
@@ -220,26 +126,18 @@ class Catalogue extends Component{
         title: '数量',
         dataIndex: 'count',
         key: 'count',
-        render: (text, record) => ( //塞入内容
-            record.count ? (
-              <span>
-                <a href="#" onClick={minCount.bind(this,record)}>-</a>
-                <a style={{margin:10}}>{record.count}</a>
-                <a href="#" onClick={addCount.bind(this,record)}>+</a>
-            </span>
-            ) : (
-              <span>
-                <a href="#" onClick={addCount.bind(this, record)}>加入购物车</a>
-              </span>
-            )
-        ),
-      },];      
+    },];  
+    const content = (
+      clientLogin ?
+      <Table columns={columns} dataSource={order} />
+      :
+      <div>请先登录</div>
+    )    
       return (
       <div>
-        <Table columns={columns} dataSource={data} />
-        <Button type="primary" onClick={refresh.bind(this)}>点击刷新</Button>
+        { content }
       </div>);
     }
   }
   
-  export default Catalogue;
+  export default Order;

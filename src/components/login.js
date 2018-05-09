@@ -7,8 +7,10 @@ import $ from 'jquery';
 const FormItem = Form.Item;
 
 
+export var userdata=new Array();
 export var clientLogin=false;
-export var Username='';
+export var Username;
+export var clientID;
 var Userpass='';
 /*
 function reloadPage(){
@@ -90,18 +92,26 @@ class Login extends Component{
                 $.ajax({
                     url:'http://localhost:8080/db/CheckUser',
                     type: 'GET',
-                    data: {'username': name},
-                    success: function(data){
-                        console.log('get password:',data);
-                        if(word === data){
+                    data: {
+                        'username': name,
+                        'password': word,
+                    },
+                    success: function(user){
+                        console.log('userinfo',user);
+                        
+                        userdata=eval(user);
+                        console.log('data:',userdata);
+                        if(userdata == 0){
+                            clientLogin=false;
+                            console.log('login fail');
+                            alert('用户名或密码错误!');
+                            //force to jump to '/home'
+                        }else{
                             clientLogin=true;
                             console.log('login success');
                             alert('登录成功');
-                            //force to jump to '/home'
-                        }else{
-                            clientLogin=false;
-                            console.log('login fail');
                         }
+                       
                     }
                 })
         }

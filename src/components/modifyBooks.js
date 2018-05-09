@@ -155,8 +155,7 @@ class ModifyBooks extends Component{
       
       render() {
         const content = (
-          /* adminLogin */
-          true ?
+          adminLogin ?
           <Table bordered dataSource={this.state.data} columns={this.columns} />
           :
           <p>

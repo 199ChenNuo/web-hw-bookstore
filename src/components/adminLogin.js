@@ -51,6 +51,7 @@ class AdminLogin extends Component{
              type: 'Get',
              data: {'adminname':name},
              success: function(data){
+                 alert('管理员登录')
                  console.log('get password:', data);
                  if(word===data){
                      adminLogin=true;

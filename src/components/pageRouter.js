@@ -15,8 +15,10 @@ import LogIn from './login';
 import AdminLogIn from './adminLogin';
 import ModifyBooks from './modifyBooks';
 import Agreement from './agreement';
+import UserAgreement from './userAgreement';
 import AddBooks from './addBooks';
 import DelBooks from './delBooks';
+import Order from './order';
 
 import { adminLogin } from './adminLogin';
 import { clientLogin } from './login';
@@ -270,8 +272,10 @@ class PageRouter extends Component {
                 </Link>
                </Menu.Item>
               <Menu.Item key="order">
+              <Link to='/User/Order'>
                 <Icon type='book' />
                 <span>历史订单</span>
+                </Link>
               </Menu.Item>
               <Menu.Item key="setting">
               <Link to='/User/settings'>
@@ -360,6 +364,8 @@ class PageRouter extends Component {
                 <Route path='/Admin/DelBooks' component={DelBooks} />
                 <Route path='/Admin/AdminRegister' component={AdminRegister} />
                 <Route path='/Agreement' component={Agreement} />
+                <Route path='/User/Agreement' component={UserAgreement} />
+                <Route path='/User/Order' component={Order} />
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
