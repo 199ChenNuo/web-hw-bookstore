@@ -45,10 +45,13 @@ function addCount(th, record){
 function refresh() {
   console.log('initial cataloge');
       $.ajax({
-        url:'http://localhost:8080/db/BookManager',
+        url:'http://localhost:8080/BookManager',
+       
         type: 'GET',
-        //dataType: 'jsonp',
+        async:false,
         success: function(books){
+          console.log(books);
+          
           data=eval(books);
           
           console.log('get data success');
@@ -64,6 +67,7 @@ function refresh() {
           }
           console.log('made books:',data);
           window.location.href='#';
+          
         }
       })
       data=data;
@@ -108,33 +112,56 @@ class Catalogue extends Component{
     };
     componentWillMount = () => {
       console.log('initial cataloge');
-      $.ajax({
-        url:'http://localhost:8080/db/BookManager',
-        type: 'GET',
-        //dataType: 'jsonp',
-        success: function(books){
-          console.log('data:',books);
-          data=eval(books);
+      /*
+      $.ajax({  
+        url:"https://localhost:8080/db/BookManager",    
+        dataType : 'jsonp',  
+        jsonp:"callback",   
+        type:'post',  
           
-          console.log('get data success');
-          console.log('origin data:',data);   
-          
-          var booksLen = data.length;
-          console.log('books len:',booksLen);
-          for(let i=0; i<booksLen; i++){
-            var b = data[i];
-            console.log('book',i+1);
-            b.count='0';
-            console.log(b);
-          }
-          console.log('made books:',data);
-          window.location.href='#';
+        error: function(data) {   
+            console.log(data);  
+        },  
+        success:function(data){  
+        //  alert("suc");  
+            console.log(data);  
+      
+        },  
+    });
+    */
+      
+    $.ajax({
+      url:'http://localhost:8080/BookManager',
+    
+      type: 'GET',
+      async:false,
+      success: function(books){
+        console.log(books);
+        
+        data=eval(books);
+        
+        console.log('get data success');
+        console.log('origin data:',data);   
+        
+        var booksLen = data.length;
+        console.log('books len:',booksLen);
+        for(let i=0; i<booksLen; i++){
+          var b = data[i];
+          console.log('book',i+1);
+          b.count='0';
+          console.log(b);
         }
-      })
-      data=data;
-      this.setState({
-        getRefresh: true,
-      })
+        console.log('made books:',data);
+        window.location.href='#';
+        
+      }
+    })
+    data=data;
+    this.setState({
+      getRefresh: true,
+    })
+     
+      
     }
     onInputChange = (e) => {
       this.setState({ searchText: e.target.value });

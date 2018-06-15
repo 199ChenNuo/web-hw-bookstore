@@ -47,16 +47,17 @@ class AdminLogin extends Component{
          var word=this.state.userpass;
          console.log('valid input, check admin account in database');
          $.ajax({
-             url:'http://localhost:8080/db/CheckAdmin',
-             type: 'Get',
+             url:'http://localhost:8080/CheckAdmin',
+             type: 'GET',
              data: {'adminname':name},
              success: function(data){
-                 alert('管理员登录')
                  console.log('get password:', data);
                  if(word===data){
+                     alert('管理员，欢迎！');
                      adminLogin=true;
                      console.log('admin login success');
                  }else{
+                     alert('用户名或密码错误');
                      adminLogin=false;
                      console.log('admin login fail');
                  }

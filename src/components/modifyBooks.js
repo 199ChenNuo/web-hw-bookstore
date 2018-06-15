@@ -126,7 +126,7 @@ class ModifyBooks extends Component{
             this.setState({ data: newData });
             this.cacheData = newData.map(item => ({ ...item }));
             $.ajax({
-                url:'http://localhost:8080/db/ModifyBooks',
+                url:'http://localhost:8080/ModifyBooks',
                 type: 'GET',
                 data: 
                 {   'ID': target.ID,

@@ -55,7 +55,7 @@ class Login extends Component{
         }
             else{
             
-            clientLogin=true;
+            clientLogin="go to check";
             // BrowserRouter.push('/home');
             //提交表单数据到后端验证
             /*
@@ -88,25 +88,27 @@ class Login extends Component{
                 */
                var name=this.state.username;
                var word=this.state.userpass;
+               
                 console.log('input valid, begin check in database');
                 $.ajax({
-                    url:'http://localhost:8080/db/CheckUser',
-                    type: 'GET',
+                    url:'http://localhost:8080/CheckUser',
+                    type: 'get',
                     data: {
                         'username': name,
                         'password': word,
                     },
-                    success: function(user){
-                        console.log('userinfo',user);
-                        
-                        userdata=eval(user);
-                        console.log('data:',userdata);
-                        if(userdata == 0){
+                    
+                    success: function(data){
+                        console.log(data);
+                        console.log('data from back end',data);
+                        if(data == 0){
                             clientLogin=false;
                             console.log('login fail');
                             alert('用户名或密码错误!');
                             //force to jump to '/home'
                         }else{
+                            userdata=eval(data);
+                            console.log('parsed data:',userdata);
                             clientLogin=true;
                             console.log('login success');
                             alert('登录成功');
@@ -115,6 +117,8 @@ class Login extends Component{
                     }
                 })
         }
+        console.log('name',name);
+        console.log('password',word);
         console.log('clientLogin:',clientLogin);
         event.preventDefault();
     };

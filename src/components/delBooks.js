@@ -124,15 +124,15 @@ class DelBooks extends Component{
         */
        if(target){
             $.ajax({
-                url:'http://localhost:8080/db/DelBooks',
+                url:'http://localhost:8080/DeleteBook',
                 type: 'GET',
                 data: 
                 {   
                     'ID': target.ID,
                 },
                 success: function(data){
-                    console.log('delete success',data);
-                    alert('删除成功！');
+                  console.log('on delete',data);
+                   alert(data);
                 }
             })
             window.location.href='#';

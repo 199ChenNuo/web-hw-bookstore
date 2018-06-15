@@ -34,13 +34,13 @@ class Settings extends Component{
             sorter: (a,b) => a.ID-b.ID,
           },{
             title: '用户名',
-            dataIndex: 'username',
-            key: 'username',
-            render: (text, record) => this.renderColumns(text, record, 'username'),
+            dataIndex: 'name',
+            key: 'name',
+            render: (text, record) => this.renderColumns(text, record, 'name'),
           },{
             title: '密码',
-            dataIndex: 'userpass',
-            key: 'userpass',
+            dataIndex: 'password',
+            key: 'password',
             render: (text, record) => this.renderColumns(text, record, 'password'),
           },{
             title: '邮箱',
@@ -122,11 +122,11 @@ class Settings extends Component{
             this.setState({ data: newData });
             this.cacheData = newData.map(item => ({ ...item }));
             $.ajax({
-                url:'http://localhost:8080/db/ModifyUser',
+                url:'http://localhost:8080/ModifyUser',
                 type: 'GET',
                 data: 
-                {   'ID': userdata[0].ID,
-                    'username': userdata[0].username,
+                {   'id': userdata[0].ID,
+                    'name': userdata[0].name,
                     'password': userdata[0].password,
                     'email' : userdata[0].email,
                     'phone': userdata[0].phone,

@@ -19,6 +19,7 @@ import UserAgreement from './userAgreement';
 import AddBooks from './addBooks';
 import DelBooks from './delBooks';
 import Order from './order';
+import ModifyUser from './ModifyUser';
 
 import { adminLogin } from './adminLogin';
 import { clientLogin } from './login';
@@ -254,6 +255,12 @@ class PageRouter extends Component {
               <span>删除图书</span>
               </Link>
             </Menu.Item>
+            <Menu.Item>
+              <Link to='/Admin/ModifyUsers'>
+              <Icon type="form" />
+              <span>管理用户</span>
+              </Link>
+            </Menu.Item>
             </SubMenu>
             <SubMenu
               key="user"
@@ -359,6 +366,7 @@ class PageRouter extends Component {
                 <Route path='/User/UserRegister' component={Register} />
                 <Route path='/User/UserLogin' component={LogIn} />
                 <Route path='/Admin/AdminLogin' component={AdminLogIn} />
+                <Route path='/Admin/ModifyUsers' component={ModifyUser} />
                 <Route path='/Admin/ModifyBooks' component={ModifyBooks} />
                 <Route path='/Admin/AddBooks' component={AddBooks} />
                 <Route path='/Admin/DelBooks' component={DelBooks} />

@@ -18,7 +18,7 @@ class RegistrationForm extends Component {
       if (!err) {
         console.log('Received values of form: ', values);
         $.ajax({
-          url:'http://localhost:8080/db/AddUser',
+          url:'http://localhost:8080/AddUser',
           type: 'GET',
           data: 
           {  

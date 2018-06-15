@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 //import ReactDOM from 'react-dom';
+import $ from 'jquery';
 import { Input, Icon, Button, Spin, Table } from 'antd';
-import { clientLogin } from './login';
+import { clientLogin, userdata } from './login';
 
 export var booksOrder = new Array();
 export var order = new Array();
@@ -39,17 +40,30 @@ function minCount(th, record){
 }
 function submitOrder(th, record){
     alert("提交成功，共"+total+"元");
-   
+    console.log('count',this.count);
     let booksOrderLen=booksOrder.length;
-    console.log('remove count:',booksOrderLen);
-    
+   
     for(let i=0; i<booksOrderLen; i++){
+        //order.push(booksOrder.pop());
+        var book = booksOrder.pop();
+        console.log('book',book);
+        console.log('userdata',userdata);
         
-        //booksOrder.pop();
-        order.push(booksOrder.pop());
+        $.ajax({
+            url:'http://localhost:8080/AddOrder',
+            type: 'GET',
+            data:{
+                userId: userdata[0].ID,
+                bookId: book.ID,
+                amount: book.count,
+                price: book.price
+            },
+            success: function(data){
+                alert('购买成功!');
+            }
+        })
+        
     }
-    //booksOrder=new Array();
-   //booksOrder.splice(0,booksOrderLen);
 }
 function addCount(th, record){
     console.log('add count, book:',th.name);

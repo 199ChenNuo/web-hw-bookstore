@@ -3,37 +3,13 @@ import React, {Component} from 'react';
 import $ from 'jquery';
 import { Input, Icon, Button, Spin, Table } from 'antd';
 
-import { order } from './shoppingcar';
-import { clientLogin } from './login';
+//import { order } from './shoppingcar';
+import { clientLogin,userdata } from './login';
 
-/*
-export const data = [{
-    ID: '0001',
-    name: '如何成为一名精致的吃货',
-    author: '心远',
-    price: 1000,
-    year: 2018,
-    count: 0,
-    storage: 1,
-},{
-    ID: '0002',
-    name: 'book2',
-    author: 'author2',
-    price: 99,
-    year: 2002,
-    count: 0,
-    storage: 50,
-},{
-    ID:'0003',
-    name : 'book3',
-    author: 'author3',
-    price: 66,
-    year: 2017,
-    count: 0,
-    storage: 88,
-},];
-*/
 export var data = new Array();
+
+//var order = new Array();
+
 class Order extends Component{
     state = {
       filterDropdownVisible: false,
@@ -41,16 +17,40 @@ class Order extends Component{
       filtered: false,
       getRefresh: false,
     };
-    
+    componentWillMount = () => {
+      console.log('initial cataloge');
+      $.ajax({
+      url:'http://localhost:8080/PrevOrder',
+      type: 'GET',
+      async:false,
+      data:{
+        userId: userdata[0].ID,
+      },
+      success: function(orders){
+        console.log(orders);
+        data=eval(orders);
+        console.log('get data success');
+        console.log('origin data:',data);   
+        var ordersLen = data.length;
+        console.log('orders len:',ordersLen);
+        for(let i=0; i<ordersLen; i++){
+          var b = data[i];
+          console.log('order',i+1);
+          console.log(b);
+        }
+        window.location.href='#';
+      }
+    })
+    data=data;
+    this.setState({
+      getRefresh: true,
+    })
+    }
     onInputChange = (e) => {
       this.setState({ searchText: e.target.value });
     }
     onSearch = () => {
       console.log('search');
-
-      
-      
-
       const { searchText } = this.state;
       const reg = new RegExp(searchText, 'gi');
       this.setState({
@@ -118,18 +118,13 @@ class Order extends Component{
         key: 'year',
         sorter: (a, b)=>a.year-b.year,
       },{
-      title: '库存',
-      dataIndex: 'storage',
-      key: 'storage',
-      sorter: (a, b)=> a.storage-b.storage,
-      },{
         title: '数量',
         dataIndex: 'count',
         key: 'count',
     },];  
     const content = (
       clientLogin ?
-      <Table columns={columns} dataSource={order} />
+      <Table columns={columns} dataSource={data} />
       :
       <div>请先登录</div>
     )    

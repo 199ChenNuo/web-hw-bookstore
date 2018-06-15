@@ -5,7 +5,6 @@ import {BrowserRouter} from 'react-router-dom';
 
 import PageRouter from './components/pageRouter'
 
-import logo from './logo.svg';
 import './App.css';
 import 'antd/dist/antd.css';
 

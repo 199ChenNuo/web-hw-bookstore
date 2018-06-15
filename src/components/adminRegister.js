@@ -23,7 +23,7 @@ class AdminRegistrationForm extends Component{
             }
             console.log('Received values of form: ', values);
             $.ajax({
-              url:'http://localhost:8080/db/AddAdmin',
+              url:'http://localhost:8080/AddAdmin',
               type: 'GET',
               data: 
               {  

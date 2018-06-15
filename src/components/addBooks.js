@@ -109,10 +109,11 @@ class AddBooks extends Component{
                 this.setState({ data: newData });
                 this.cacheData = newData.map(item => ({ ...item }));
                 $.ajax({
-                    url:'http://localhost:8080/db/AddBooks',
+                    url:'http://localhost:8080/AddBook',
                     type: 'GET',
                     data: 
                     {  
+                        'id' :target.id,
                         'author': target.author,
                         'name': target.name,
                         'price': target.price,
@@ -120,8 +121,8 @@ class AddBooks extends Component{
                         'year':target.year,
                     },
                     success: function(data){
-                        console.log('modify success',data);
-                        alert('修改成功！');
+                        console.log('add success',data);
+                        alert('添加成功！');
                     }
                 })
             }
