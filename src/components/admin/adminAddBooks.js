@@ -9,7 +9,8 @@ data.push({
     author:'作者',
     price:'价格',
     year:'出版年份',
-    storage:'库存'
+    storage:'库存',
+    category:'种类',
 })
 const EditableCell = ({ editable, value, onChange }) => (
     <div>
@@ -28,6 +29,11 @@ class AddBooks extends Component{
                 dataIndex: 'name',
                 key: 'name',
                 render: (text, record) => this.renderColumns(text, record, 'name'),
+            },{
+                title: '种类',
+                dataIndex: 'category',
+                key: 'category',
+                render: (text, record) => this.renderColumns(text, record, 'category'),
             },{
                 title: '作者',
                 dataIndex: 'author',
@@ -119,6 +125,7 @@ class AddBooks extends Component{
                         'price': target.price,
                         'storage' : target.storage,
                         'year':target.year,
+                        'catagory':target.catagory,
                     },
                     success: function(data){
                         console.log('add success',data);

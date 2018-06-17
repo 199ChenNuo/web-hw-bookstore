@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Table, Input, Icon, Button, Popconfirm } from 'antd';
 import $ from 'jquery';
-import { data } from './catalogue';
-import { adminLogin } from './adminLogin';
+import { data } from '../catalogue';
+import { adminLogin } from './admin/adminLogin';
 
 import './style.css';
 class EditableCell extends React.Component {

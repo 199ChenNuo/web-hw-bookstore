@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import { Form, Select, Popconfirm, Input, Icon, Button, Spin, Table } from 'antd';import './style.css';
-import { clientLogin, clientID, userdata } from './login';
+import { Form, Select, Popconfirm, Input, Icon, Button, Spin, Table } from 'antd';import '../style.css';
+import { clientLogin, clientID, userdata } from './userLogin';
 import $ from 'jquery';
 const FormItem = Form.Item;
 const Option = Select.Option;

@@ -3,8 +3,8 @@ import React, {Component} from 'react';
 import $ from 'jquery';
 import { Input, Icon, Button, Spin, Table } from 'antd';
 
-import { booksOrder } from './shoppingcar';
-import { clientLogin } from './login';
+import { booksOrder } from './user/shoppingcar';
+import { clientLogin } from './user/userLogin';
 
 function minCount(th, record){
   console.log('count',th.count);
@@ -112,66 +112,36 @@ class Catalogue extends Component{
     };
     componentWillMount = () => {
       console.log('initial cataloge');
-      /*
-      $.ajax({  
-        url:"https://localhost:8080/db/BookManager",    
-        dataType : 'jsonp',  
-        jsonp:"callback",   
-        type:'post',  
-          
-        error: function(data) {   
-            console.log(data);  
-        },  
-        success:function(data){  
-        //  alert("suc");  
-            console.log(data);  
-      
-        },  
-    });
-    */
-      
-    $.ajax({
-      url:'http://localhost:8080/BookManager',
-    
-      type: 'GET',
-      async:false,
-      success: function(books){
-        console.log(books);
-        
-        data=eval(books);
-        
-        console.log('get data success');
-        console.log('origin data:',data);   
-        
-        var booksLen = data.length;
-        console.log('books len:',booksLen);
-        for(let i=0; i<booksLen; i++){
-          var b = data[i];
-          console.log('book',i+1);
-          b.count='0';
-          console.log(b);
+      $.ajax({
+        url:'http://localhost:8080/BookManager',
+        type: 'GET',
+        async:false,
+        success: function(books){
+          console.log(books);
+          data=eval(books);
+          console.log('origin data:',data);  
+          var booksLen = data.length;
+          console.log('books len:',booksLen);
+          for(let i=0; i<booksLen; i++){
+            var b = data[i];
+            console.log('book',i+1);
+            b.count='0';
+            console.log(b);
+          }
+          console.log('made books:',data);
+          window.location.href='#';
         }
-        console.log('made books:',data);
-        window.location.href='#';
-        
-      }
-    })
-    data=data;
-    this.setState({
-      getRefresh: true,
-    })
-     
-      
+      })
+      data=data;
+      this.setState({
+        getRefresh: true,
+      })
     }
     onInputChange = (e) => {
       this.setState({ searchText: e.target.value });
     }
     onSearch = () => {
       console.log('search');
-
-      
-      
-
       const { searchText } = this.state;
       const reg = new RegExp(searchText, 'gi');
       this.setState({

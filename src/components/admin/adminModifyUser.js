@@ -5,7 +5,7 @@ import { adminLogin } from './adminLogin';
 
 var data = new Array();
 
-/*
+
 const EditableCell = ({ editable, value, onChange }) => (
     <div>
       {editable
@@ -14,8 +14,8 @@ const EditableCell = ({ editable, value, onChange }) => (
       }
     </div>
 );
-*/
 
+/*
 class EditableCell extends React.Component {
     state = {
       value: this.props.value,
@@ -66,6 +66,7 @@ class EditableCell extends React.Component {
       );
     }
 }
+*/
 
 class ModifyUser extends Component{
     constructor(props) {
@@ -74,7 +75,6 @@ class ModifyUser extends Component{
             title: 'ID',
             dataIndex: 'ID',
             key: 'ID',
-            render: (text, record) => this.renderColumns(text, record, 'ID'),
         },{
             title: '用户名',
             dataIndex: 'name',
@@ -99,7 +99,7 @@ class ModifyUser extends Component{
 
         },{
             title: '修改',
-            dataIndex: 'operation',
+            dataIndex: 'modify',
             render: (text, record) => {
                 const { editable } = record;
                 return (
@@ -107,7 +107,7 @@ class ModifyUser extends Component{
                     {
                     editable ?
                         <span>
-                        <a onClick={() => this.save(record.key)}>Save</a>
+                        <a onClick={() => this.save(record.key)}>Save  </a>
                         <Popconfirm title="Sure to cancel?" onConfirm={() => this.cancel(record.key)}>
                             <a>Cancel</a>
                         </Popconfirm>
@@ -119,7 +119,7 @@ class ModifyUser extends Component{
             },
         },{
             title: '删除',
-            dataIndex: 'operation',
+            dataIndex: 'delete',
             render: (text, record) => {
                 return (
                     <Popconfirm title="Sure to delete?" onConfirm={() => this.onDelete(record.key)}>
@@ -204,11 +204,15 @@ class ModifyUser extends Component{
             delete target.editable;
             this.setState({ data: newData });
             this.cacheData = newData.map(item => ({ ...item }));
+            console.log('target',target);
+            console.log('target.ID',target.ID);
+            console.log('name',target.name);
             $.ajax({
                 url:'http://localhost:8080/ModifyUser',
                 type: 'GET',
                 data: 
-                {   'ID': target.ID,
+                {   
+                    'id': target.ID,
                     'name': target.name,
                     'password': target.password,
                     'phone' : target.phone,
@@ -241,8 +245,7 @@ class ModifyUser extends Component{
       );
         return(
           <div>
-              
-             { <Table bordered dataSource={this.state.data} columns={this.columns} /> }
+             { content }
           </div>
         );
       }

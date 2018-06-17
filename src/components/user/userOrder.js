@@ -4,8 +4,8 @@ import $ from 'jquery';
 import { Input, Icon, Button, Spin, Table } from 'antd';
 
 //import { order } from './shoppingcar';
-import { clientLogin,userdata } from './login';
-
+import { clientLogin,userdata } from './userLogin';
+import '../style.css'
 export var data = new Array();
 
 //var order = new Array();
@@ -16,38 +16,46 @@ class Order extends Component{
       searchText: '',
       filtered: false,
       getRefresh: false,
+      beginDate: '',
+      endDate: '',
     };
     componentWillMount = () => {
       console.log('initial cataloge');
       $.ajax({
-      url:'http://localhost:8080/PrevOrder',
-      type: 'GET',
-      async:false,
-      data:{
-        userId: userdata[0].ID,
-      },
-      success: function(orders){
-        console.log(orders);
-        data=eval(orders);
-        console.log('get data success');
-        console.log('origin data:',data);   
-        var ordersLen = data.length;
-        console.log('orders len:',ordersLen);
-        for(let i=0; i<ordersLen; i++){
-          var b = data[i];
-          console.log('order',i+1);
-          console.log(b);
+        url:'http://localhost:8080/PrevOrder',
+        type: 'GET',
+        async:false,
+        data:{
+          userId: userdata[0].ID,
+        },
+        success: function(orders){
+          console.log(orders);
+          data=eval(orders);
+          console.log('get data success');
+          console.log('origin data:',data);   
+          var ordersLen = data.length;
+          console.log('orders len:',ordersLen);
+          for(let i=0; i<ordersLen; i++){
+            var b = data[i];
+            console.log('order',i+1);
+            console.log(b);
+          }
+          window.location.href='#';
         }
-        window.location.href='#';
-      }
-    })
-    data=data;
-    this.setState({
-      getRefresh: true,
-    })
+      })
+      data=data;
+      this.setState({
+        getRefresh: true,
+      })
     }
     onInputChange = (e) => {
       this.setState({ searchText: e.target.value });
+    }
+    inputBeginDate = (e) => {
+      this.setState({ beginDate: e.target.value });
+    }
+    inputEndDate = (e) => {
+      this.setState({ endDate: e.target.value });
     }
     onSearch = () => {
       console.log('search');
@@ -74,12 +82,60 @@ class Order extends Component{
         }).filter(record => !!record),
       });
     }
+    onSearchDate = () => {
+      $.ajax({
+        url:'http://localhost:8080/PrevOrderByDate',
+        type: 'GET',
+        async:false,
+        data:{
+          userId: userdata[0].ID,
+          beginDate: this.state.beginDate,
+          endDate: this.state.endDate,
+        },
+        success(orders){
+          data=eval(orders);
+          window.location.href='#';
+        }
+      })
+    }
+    refresh = () => {
+      $.ajax({
+        url:'http://localhost:8080/PrevOrder',
+        type: 'GET',
+        async:false,
+        data:{
+          userId: userdata[0].ID,
+        },
+        success: function(orders){
+          console.log(orders);
+          data=eval(orders);
+          console.log('get data success');
+          console.log('origin data:',data);   
+          var ordersLen = data.length;
+          console.log('orders len:',ordersLen);
+          for(let i=0; i<ordersLen; i++){
+            var b = data[i];
+            console.log('order',i+1);
+            console.log(b);
+          }
+          window.location.href='#';
+        }
+      })
+      data=data;
+      this.setState({
+        getRefresh: true,
+      })
+    }
     render() {
       const columns = [{
         title: 'ID',
         dataIndex: 'ID',
         key: 'ID',
         sorter: (a,b) => a.ID-b.ID,
+      },{
+        title: '购买时间',
+        dataIndex: 'date',
+        key: 'date',
       },{
         title: '书名',
         dataIndex: 'name',
@@ -124,7 +180,31 @@ class Order extends Component{
     },];  
     const content = (
       clientLogin ?
-      <Table columns={columns} dataSource={data} />
+      <div>
+        <div class="date">
+          <Input
+            ref={ele => this.searchInput = ele}
+            placeholder="2000-01-01"
+            value={this.state.beginDate}
+            onChange={this.inputBeginDate}
+          />
+          <Input
+            ref={ele => this.searchInput = ele}
+            placeholder="2018-06-23"
+            value={this.state.endDate}
+            onChange={this.inputEndDate}
+          />
+          <a>
+          <Button type="primary" onClick={this.onSearchDate}>搜索</Button>
+          <a>    </a>
+          <Button type="primary" onClick={this.refresh}>重置</Button>
+          </a>
+        </div>
+        <div>
+        <Table columns={columns} dataSource={data} />
+        </div>
+        
+      </div>
       :
       <div>请先登录</div>
     )    

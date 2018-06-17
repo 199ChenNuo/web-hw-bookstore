@@ -2,6 +2,15 @@
     position: relative;
     left: 45px;
     top: 10px;
+    height: 50px;
+    width: 50px;
+}
+
+div.date {
+  position: relative;
+  left: 80%;
+  text-align: center;
+  width: 200px;
 }
 
 .container {

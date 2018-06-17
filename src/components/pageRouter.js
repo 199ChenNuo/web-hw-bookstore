@@ -5,24 +5,26 @@ import { Upload, message, Layout, Menu, Breadcrumb, Icon } from 'antd';
 //import MenuItem from 'antd/lib/menu/MenuItem';
 
 import Catalogue from './catalogue';
-import User from './user';
 import Home from './home';
-import ShoppingCar from './shoppingcar';
-import Settings from './settings';
-import Register from './register';
-import AdminRegister from './adminRegister';
-import LogIn from './login';
-import AdminLogIn from './adminLogin';
-import ModifyBooks from './modifyBooks';
 import Agreement from './agreement';
-import UserAgreement from './userAgreement';
-import AddBooks from './addBooks';
-import DelBooks from './delBooks';
-import Order from './order';
-import ModifyUser from './ModifyUser';
 
-import { adminLogin } from './adminLogin';
-import { clientLogin } from './login';
+import User from './user/user';
+import ShoppingCar from './user/shoppingcar';
+import Settings from './user/settings';
+import Register from './user/userRegister';
+import LogIn from './user/userLogin';
+import UserAgreement from './user/userAgreement';
+import Order from './user/userOrder';
+import { clientLogin } from './user/userLogin';
+
+import AdminRegister from './admin/adminRegister';
+import AdminLogIn from './admin/adminLogin';
+import ModifyBooks from './admin/adminModifyBooks';
+import AddBooks from './admin/adminAddBooks';
+import ModifyUser from './admin/adminModifyUser';
+import AdminSales from './admin/adminSales';
+import { adminLogin } from './admin/adminLogin';
+
 
 import './style.css';
 import * as styles from './style.less';
@@ -30,23 +32,7 @@ import * as styles from './style.less';
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
 
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
 
-function beforeUpload(file) {
-  const isJPG = file.type === 'image/jpeg';
-  if (!isJPG) {
-    message.error('You can only upload JPG file!');
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
-  }
-  return isJPG && isLt2M;
-}
 
 class PageRouter extends Component {
   state = {
@@ -69,20 +55,7 @@ class PageRouter extends Component {
     
 };
 
-  handleChange = (info) => {
-      console.log('info',info);
-    if (info.file.status === 'uploading') {
-      this.setState({ loading: true });
-      return;
-    }
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, imageUrl => this.setState({
-        imageUrl,
-        loading: false,
-      }));
-    }
-  }
+ 
 
   handleMenuOnClick = (e) => {
     this.setState({current: e.key});
@@ -90,35 +63,7 @@ class PageRouter extends Component {
   };
 
   render() {
-    const uploadButton = (
-      <div>
-        <Icon type={this.state.loading ? 'loading' : 'plus'} />
-        <div className="ant-upload-text">Upload</div>
-      </div>
-    );
-    const imgColladpse = (
-      this.state.collapsed ? 
-        <Menu.Item>
-          <Icon type="user" />
-          <span>我</span>
-        </Menu.Item>
-             :       
-        <div id='user-header'>
-          <Upload
-            style={{margin:'0 auto',textAlign:'center',verticalAlign:'middle'}}
-            name="avatar"
-            listType="picture-card"
-            //class="user-header"
-            className="avatar-uploader"
-            showUploadList={false}
-            action="//jsonplaceholder.typicode.com/posts/"
-            beforeUpload={beforeUpload}
-            onChange={this.handleChange}
-          >
-            {imageUrl ? <img src={imageUrl} alt="" /> : uploadButton}
-          </Upload>
-        </div>
-    )
+    
     const userOrAdmin = (
       adminLogin && !clientLogin ?
         <Menu.Item>
@@ -203,7 +148,6 @@ class PageRouter extends Component {
 
               userOrAdmin
     )
-    const imageUrl = this.state.imageUrl;
     return (
       <div>
         <Layout style={{ minHeight: '100vh' }}>
@@ -216,10 +160,6 @@ class PageRouter extends Component {
           <div className="logo" />
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
             
-          
-           { imgColladpse }
-            
-
             <Menu.Item key="home">
               <Link to='/Home'>
                 <Icon type="home" />
@@ -235,12 +175,12 @@ class PageRouter extends Component {
             </Menu.Item>
 
           <SubMenu key='admin'
-          title={<span><Icon type="form" /><span>管理图书</span></span>}
+          title={<span><Icon type="form" /><span>管理</span></span>}
           >
             <Menu.Item>
               <Link to='/Admin/ModifyBooks'>
               <Icon type="form" />
-              <span>更改图书库存</span>
+              <span>库存管理</span>
               </Link>
             </Menu.Item>
             <Menu.Item>
@@ -250,21 +190,21 @@ class PageRouter extends Component {
               </Link>
             </Menu.Item>
             <Menu.Item>
-              <Link to='/Admin/DelBooks'>
+              <Link to='/Admin/ModifyUsers'>
               <Icon type="form" />
-              <span>删除图书</span>
+              <span>用户管理</span>
               </Link>
             </Menu.Item>
             <Menu.Item>
-              <Link to='/Admin/ModifyUsers'>
+              <Link to='/Admin/Sales'>
               <Icon type="form" />
-              <span>管理用户</span>
+              <span>销售统计</span>
               </Link>
             </Menu.Item>
             </SubMenu>
             <SubMenu
               key="user"
-              title={<span><Icon type="solution" /><span>我的</span></span>}
+              title={<span><Icon type="solution" /><span>信息维护</span></span>}
             >
               <Menu.Item key="userinfo">
                <Link to='/User/Userinfo'>
@@ -369,8 +309,8 @@ class PageRouter extends Component {
                 <Route path='/Admin/ModifyUsers' component={ModifyUser} />
                 <Route path='/Admin/ModifyBooks' component={ModifyBooks} />
                 <Route path='/Admin/AddBooks' component={AddBooks} />
-                <Route path='/Admin/DelBooks' component={DelBooks} />
                 <Route path='/Admin/AdminRegister' component={AdminRegister} />
+                <Route path='/Admin/Sales' component={AdminSales} />
                 <Route path='/Agreement' component={Agreement} />
                 <Route path='/User/Agreement' component={UserAgreement} />
                 <Route path='/User/Order' component={Order} />
